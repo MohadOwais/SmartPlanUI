@@ -7,7 +7,7 @@ import Logoimg from "../assets/logo.png";
 
 
 import "../publicCSS/public.css";
-import MyCards from "./myCards";
+import MyCards from "./MyCards";
 import Navbar from "./Navbar";
 import OurProjects from "./OurProjects";
 import ImagesSlider from "../ImagesSliders/ImagesSliders";
