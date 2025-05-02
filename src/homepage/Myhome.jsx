@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Logoimg from "../assets/logo.png";
 // import Homeimg from "../assets/home.jpg";
-import Homevedio from "../assets/Vediofordubai.mp4";
+
 
 import "../publicCSS/public.css";
 import MyCards from "./myCards";
