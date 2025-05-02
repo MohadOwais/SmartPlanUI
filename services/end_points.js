@@ -1,0 +1,29 @@
+// export const API_BASE_URL = "http://localhost:8080/v1/";
+export const API_BASE_URL = "https://smartplan-be.vercel.app/v1/";
+
+//Auth
+export const LOGIN = "auth/login";
+export const ADD_USER = "user/add-user";
+export const EDIT_USER = "user/update-user/";
+export const GET_USER = "user/get-user";
+export const GET_ROLES = "user/roles/";
+export const DELETE_USER = "user/delete-user/";
+export const ADD_HOME = "home/add-home";
+export const GET_HOME = "home/get-property";
+export const GET_HOME_BASEROLES = "home/get-property-onrole/";
+export const GET_PRICE = "price/get-price-plan/";
+export const ADD_HOME_LIST = "house/add-house-plan";
+export const LIST_PROPERTY = "/home/get-property-onrole/";
+export const UPDATE_PROPERTY = "/home/property-update/";
+export const PROPERTY_IMG = "home/get-img-Apartmnet/";
+export const ALL_IMG = "/home/get-all-img";
+export const HOME_LISTING = "house/list-house-plan";
+export const UPDATE_LISTING = "house/update-house-plan/";
+export const LIST_OF_FEATURES = "feature/get-home_feature";
+export const ADD_FEATURES = "feature/add-home_feature";
+export const EDIT_FEATURES = "feature/update-feature/";
+export const DELETE_FEATURE = "feature/delete-feature/";
+export const LIST_OF_Facilities = "facilities/get-home_facility";
+export const ADD_Facilities = "facilities/add-home_facility";
+export const EDIT_Facilities = "facilities/update-facility/";
+export const DELETE_Facilities = "facilities/delete-facility/";

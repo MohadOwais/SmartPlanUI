@@ -1,0 +1,165 @@
+.logoClass{
+    width: 80px;
+    height: 80px;
+}
+.bi-person-fill {
+    font-size: 2rem; /* Adjust size */
+    margin-left: 10px; /* Spacing from other elements */
+    color: #000; /* Icon color */
+  }
+  .navbarlink {
+    display: flex;
+    justify-content: center; /* Centers the entire navbarlink div */
+    align-items: center; /* Aligns items vertically */
+    width: 100%; /* Takes the full width of the parent container */
+    margin: 0 auto; /* Centers the navbarlink in the parent container */
+  }
+  
+  /* .navbar-nav {
+    display: flex; /* Aligns nav items in a row */
+    /* justify-content: space-around; Adds spacing between the nav items */
+    /* width: 50%; /* Adjust width to control spacing */
+    /* list-style: none; Removes default list styles */
+    /* padding: 0; */
+    /* margin: 0; */ */
+  /* } */ */
+  
+  .nav-item {
+    padding: 0 10px; 
+  }
+  .nav-link {
+    text-decoration: none; 
+    color: #000;
+    font-size: 20;
+  }
+  .nav-link:hover {
+    color: #007bff; 
+  }    
+  /* button:hover{
+    background-color: #007bff;
+    color: white;
+    transition: left 0.3s;
+  } */
+  button {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 16px;
+    /* border: 1px solid #a69790; */
+    background-color: transparent;
+    color:white;
+    transition: color 0.3s, border-color 0.3s;
+    z-index: 1; /* Ensure text is on top */
+  }
+  #h4{
+    color: #3c2415;
+  }
+    .className{
+    font-weight: bold;
+  }
+  button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    /* background-color: #007bff; */
+    background-color:#a69790;
+    transition: left 0.3s;
+    z-index: -1; /* Ensure background is behind the text */
+  }
+  
+  button:hover {
+    color: white; /* Change text color to white on hover */
+    border-color:#a69790;
+  }
+  
+  button:hover::before {
+    left: 0;
+  }
+  .custom-table-header {
+    background-color: #3c2415;
+    color: #fff;
+  }
+  /* .navbar {
+    position: static !important;
+  }
+   */
+   /* .navbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white; 
+    z-index: 1000;
+} */
+.navbar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.3); /* Transparent white */
+  backdrop-filter: blur(10px); /* Optional: adds a glass effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Optional subtle border */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 30px !important; /* Adjust width */
+  height: 30px !important; /* Adjust height */
+  display: flex;
+  align-items: center;  /* Vertically center the button */
+  justify-content: center;  /* Horizontally center the button */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);  /* Vertically center the button */
+}
+
+.carousel-control-prev {
+  left: 0;  /* Position to the left */
+}
+
+.carousel-control-next {
+  right: 0;  /* Position to the right */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px !important; /* Adjust icon size */
+  height: 20px !important;
+}
+.property-card {
+  width: 150px; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.property-card .card-body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.property-card i {
+  font-size: 25px;
+  color: #3c2415;
+}
+
+.property-card span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3c2415;
+}
+
+.property-card:hover {
+  /* background-color: #b59e7c;  */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);/* Change to desired hover color */
+}
