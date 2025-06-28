@@ -4,7 +4,12 @@ import Navbar from "../homepage/Navbar";
 import Addusers from "../assets/Addusers.jpeg";
 import Logoimg from "../assets/logo.png";
 import { _get, _post } from "../../services/services_api";
-import { ADD_HOME, API_BASE_URL, GET_USER } from "../../services/end_points";
+import {
+  ADD_HOME,
+  API_BASE_URL,
+  GET_USER,
+  IMG_API_BASE_URL,
+} from "../../services/end_points";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
@@ -165,7 +170,7 @@ const Editproperty = () => {
 
         const response = await axios.put(
           // `http://localhost:8080/property-update/${userId}`,
-          `http://localhost:8080/property-update/${userId}`,
+          `${IMG_API_BASE_URL}/property-update/${userId}`,
           fileData
         );
         console.log("res API", response);
@@ -190,10 +195,10 @@ const Editproperty = () => {
 
   const Submiting = async (e) => {
     e.preventDefault();
-    console.log("price dapta", PriceData);
+
     try {
       const response = await axios.post(
-        "http://localhost:8080/price/price-plan",
+        `${IMG_API_BASE_URL}/price/price-plan`,
         PriceData
       );
       if (response.status === 200) {

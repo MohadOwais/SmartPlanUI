@@ -17,6 +17,7 @@ import {
   API_BASE_URL,
   GET_HOME,
   GET_HOME_BASEROLES,
+  IMG_API_BASE_URL,
   PROPERTY_IMG,
 } from "../../services/end_points";
 import { data, useNavigate } from "react-router-dom";
@@ -71,7 +72,6 @@ const Property = () => {
       } else {
         result = await _get(`${API_BASE_URL}${GET_HOME}`);
       }
-   
 
       if (result.status === 200) {
         setProperty(result.data.data);
@@ -266,7 +266,7 @@ const Property = () => {
                           console.error("Error filtering ImagePath:", error);
                         }
 
-                        const baseUrl = "http://localhost:8080";
+                        const baseUrl = `${IMG_API_BASE_URL}`;
 
                         const imageUrl =
                           imageArray.length > 0

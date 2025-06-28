@@ -8,6 +8,7 @@ import {
   ADD_HOME,
   API_BASE_URL,
   GET_USER,
+  IMG_API_BASE_URL,
   LIST_OF_Facilities,
   LIST_OF_FEATURES,
 } from "../../services/end_points";
@@ -155,7 +156,7 @@ const AddProperty = () => {
         // }
 
         const response = await axios.post(
-          `http://localhost:8080/add-home/${userId}`,
+          `${IMG_API_BASE_URL}/add-home/${userId}`,
           // `https://smartplan-be.vercel.app/add-home/${userId}`,
           fileData
         );
@@ -183,7 +184,7 @@ const AddProperty = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/price/price-plan",
+        `${IMG_API_BASE_URL}/price/price-plan`,
         // "https://smartplan-be.vercel.app/price/price-plan",
         PriceData
       );

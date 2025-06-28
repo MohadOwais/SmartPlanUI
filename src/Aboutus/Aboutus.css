@@ -1,7 +1,8 @@
 .aboutus-bg {
   min-height: 100vh;
   
-  background: linear-gradient(120deg, #0a2342 60%, #2e8bc0 100%);
+  /* background: linear-gradient(120deg, #0a2342 60%, #2e8bc0 100%); */
+  background: #f6eeeb;
   /* Remove card, make content full width */
   display: flex;
   flex-direction: column;
@@ -33,21 +34,21 @@
 
 .aboutus-title {
   font-weight: 800;
-  color: #fff;
+  color: black;
   margin-bottom: 18px;
   font-size: 2.8rem;
   letter-spacing: 1px;
 }
 
 .aboutus-description {
-  color: #e0e0e0;
+  color: black;
   font-size: 19px;
   margin-bottom: 18px;
   line-height: 1.6;
 }
 
 .aboutus-owner {
-  color: #b3e0ff;
+  color: gray;
   font-size: 17px;
   margin-bottom: 28px;
 }
@@ -102,7 +103,7 @@
 
 .aboutus-footer {
   margin-top: 40px;
-  color: #b3e0ff;
+  color: rgb(66, 65, 65);
   font-size: 15px;
   text-align: center;
   letter-spacing: 1px;

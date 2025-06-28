@@ -1,4 +1,5 @@
-export const API_BASE_URL = "http://localhost:8080/v1/";
+export const API_BASE_URL = "http://103.86.177.49:8080/v1/";
+export const IMG_API_BASE_URL = "http://103.86.177.49:8080";
 // export const API_BASE_URL = "https://smartplan-be.vercel.app/v1/";
 // export const API_BASE_URL = "http://owais.intencode.com/v1/";
 

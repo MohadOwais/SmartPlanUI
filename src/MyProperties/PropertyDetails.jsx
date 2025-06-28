@@ -11,6 +11,7 @@ import {
   ALL_FACILITY_FEATURES,
   API_BASE_URL,
   GET_PRICE,
+  IMG_API_BASE_URL,
   PROPERTY_IMG,
 } from "../../services/end_points";
 const PropertyDetails = () => {
@@ -35,7 +36,7 @@ const PropertyDetails = () => {
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
-  const baseUrl = "http://localhost:8080";
+  const baseUrl = `${IMG_API_BASE_URL}`;
   // const baseUrl = "https://smartplan-be.vercel.app";
   const fetchdata = async () => {
     try {

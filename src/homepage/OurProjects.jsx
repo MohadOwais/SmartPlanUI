@@ -7,6 +7,7 @@ import {
   ALL_IMG,
   API_BASE_URL,
   GET_HOME,
+  IMG_API_BASE_URL,
   PROPERTY_IMG,
 } from "../../services/end_points";
 import { _get } from "../../services/services_api";
@@ -165,7 +166,7 @@ const OurProjects = () => {
                         console.error("Error filtering ImagePath:", error);
                       }
 
-                      const baseUrl = "http://localhost:8080";
+                      const baseUrl = `${IMG_API_BASE_URL}`;
                       // const baseUrl = "https://smartplan-be.vercel.app";
 
                       const imageUrl =
