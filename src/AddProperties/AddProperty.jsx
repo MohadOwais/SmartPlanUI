@@ -60,6 +60,7 @@ const AddProperty = () => {
   const fetchData = async () => {
     try {
       const result = await _get(`${API_BASE_URL}${LIST_OF_Facilities}`);
+      console.log("result", result);
       if (result.status === 200) {
         setData(result.data.data);
       }
@@ -154,8 +155,8 @@ const AddProperty = () => {
         // }
 
         const response = await axios.post(
-          // `http://localhost:8080/add-home/${userId}`,
-          `https://smartplan-be.vercel.app/add-home/${userId}`,
+          `http://localhost:8080/add-home/${userId}`,
+          // `https://smartplan-be.vercel.app/add-home/${userId}`,
           fileData
         );
         if (response.status === 200) {
@@ -182,8 +183,8 @@ const AddProperty = () => {
 
     try {
       const response = await axios.post(
-        // "http://localhost:8080/price/price-plan",
-        "https://smartplan-be.vercel.app/price/price-plan",
+        "http://localhost:8080/price/price-plan",
+        // "https://smartplan-be.vercel.app/price/price-plan",
         PriceData
       );
       if (response.status === 200) {
@@ -235,6 +236,7 @@ const AddProperty = () => {
 
   return (
     <>
+      <Navbar />
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-12 col-md-12">

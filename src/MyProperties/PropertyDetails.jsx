@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { _get, _post } from "../../services/services_api";
 import {
   ADD_HOME_LIST,
+  ALL_FACILITY_FEATURES,
   API_BASE_URL,
   GET_PRICE,
   PROPERTY_IMG,
@@ -15,6 +16,7 @@ import {
 const PropertyDetails = () => {
   const location = useLocation();
   const { property } = location.state;
+
   const [pricePlan, setPricePlan] = useState();
   const [carouselImages, setCarouselImages] = useState([]);
   const [formdata, setFormData] = useState({
@@ -28,11 +30,13 @@ const PropertyDetails = () => {
   });
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [allpropertyFacilities, setAllpropertyFacilities] = useState(false);
+
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
-  // const baseUrl = "http://localhost:8080";
-  const baseUrl = "https://smartplan-be.vercel.app";
+  const baseUrl = "http://localhost:8080";
+  // const baseUrl = "https://smartplan-be.vercel.app";
   const fetchdata = async () => {
     try {
       const result = await _get(
@@ -41,6 +45,19 @@ const PropertyDetails = () => {
 
       if (result.status === 200) {
         setPricePlan(result.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching price plan:", error);
+    }
+  };
+  const fetchAllData = async () => {
+    try {
+      const result = await _get(
+        `${API_BASE_URL}${ALL_FACILITY_FEATURES}${property.id}`
+      );
+
+      if (result.status === 200) {
+        setAllpropertyFacilities(result.data.data);
       }
     } catch (error) {
       console.error("Error fetching price plan:", error);
@@ -56,6 +73,7 @@ const PropertyDetails = () => {
         const images = result?.data?.data || [];
         setCarouselImages(images);
         fetchdata();
+        fetchAllData();
       } catch (error) {
         console.error("Error fetching images:", error);
       }
@@ -78,13 +96,6 @@ const PropertyDetails = () => {
       }
     } catch (error) {}
   };
-  // const imagePaths = JSON.parse(property.ImagePath);
-  // const tableData = JSON.parse(property.TableContent);
-
-  // // Get the first image
-  // const firstImage = imagePaths[0];
-  // const secImage = imagePaths[1];
-  // const ThreeImage = imagePaths[2];
 
   return (
     <>
@@ -298,7 +309,7 @@ const PropertyDetails = () => {
                                     <span>2BHK</span>
                                   </div>
                                 </div>
-                                {property.Facilities &&
+                                {/* {property.Facilities &&
                                 property.Facilities.split(",").length > 1 ? (
                                   property.Facilities.split(",").map(
                                     (facility) => (
@@ -332,6 +343,46 @@ const PropertyDetails = () => {
                                   )
                                 ) : (
                                   <></> // Renders nothing if facilities are empty or <= 1
+                                )} */}
+                                {allpropertyFacilities && (
+                                  <div className="row">
+                                    {[
+                                      ...new Set(
+                                        allpropertyFacilities.map(
+                                          (item) => item.FacilityName
+                                        )
+                                      ),
+                                    ].map((facility) => (
+                                      <div
+                                        className="col-md-3 mb-3"
+                                        key={facility}
+                                      >
+                                        <div className="card property-card text-center">
+                                          <div className="card-body">
+                                            <i
+                                              className={`bi ${
+                                                facility === "Parking"
+                                                  ? "bi-p-circle"
+                                                  : facility === "Swimming Pool"
+                                                  ? "bi-water"
+                                                  : facility === "Security"
+                                                  ? "bi-shield-lock"
+                                                  : facility === "Clubhouse"
+                                                  ? "bi-house-door"
+                                                  : facility === "Playground"
+                                                  ? "bi-tree"
+                                                  : facility === "Gym"
+                                                  ? "bi-barbell"
+                                                  : "bi-building" // default icon
+                                              }`}
+                                              style={{ fontSize: "40px" }}
+                                            ></i>
+                                            <h6 className="mt-2">{facility}</h6>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
                                 )}
                               </div>
                             </div>
@@ -1032,7 +1083,7 @@ const PropertyDetails = () => {
                                           }}
                                         >
                                           <img
-                                            src={Logoimg}
+                                            src={ComapanyLogo}
                                             alt="logo img"
                                             style={{
                                               width: "100%",

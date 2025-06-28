@@ -1,0 +1,132 @@
+.aboutus-bg {
+  min-height: 100vh;
+  
+  background: linear-gradient(120deg, #0a2342 60%, #2e8bc0 100%);
+  /* Remove card, make content full width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.aboutus-main {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto 0 auto;
+  padding: 0 40px;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  flex-wrap: wrap;
+}
+
+.aboutus-left {
+  flex: 1 1 400px;
+  min-width: 320px;
+  color: #fff;
+  padding: 0 32px 0 0;
+}
+
+.aboutus-title {
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 18px;
+  font-size: 2.8rem;
+  letter-spacing: 1px;
+}
+
+.aboutus-description {
+  color: #e0e0e0;
+  font-size: 19px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.aboutus-owner {
+  color: #b3e0ff;
+  font-size: 17px;
+  margin-bottom: 28px;
+}
+
+.aboutus-contact-btn {
+  display: inline-block;
+  padding: 13px 36px;
+  background: #2e8bc0;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+  margin-top: 18px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(46,139,192,0.15);
+}
+
+.aboutus-contact-btn:hover {
+  background: #145da0;
+}
+
+.aboutus-right {
+  flex: 1 1 400px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.aboutus-logo-top {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  background: #fff;
+}
+
+.aboutus-client-img {
+  width: 350px;
+  height: 260px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+
+.aboutus-footer {
+  margin-top: 40px;
+  color: #b3e0ff;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.aboutus-footer span {
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .aboutus-main {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+  }
+  .aboutus-left, .aboutus-right {
+    align-items: center;
+    text-align: center;
+    padding: 0;
+  }
+  .aboutus-client-img {
+    width: 90vw;
+    max-width: 350px;
+    height: auto;
+  }
+}

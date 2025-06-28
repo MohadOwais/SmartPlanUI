@@ -32,17 +32,38 @@ const OurProjects = () => {
   const getPropertyData = async () => {
     try {
       const result = await _get(`${API_BASE_URL}${GET_HOME}`);
+      // console.log("Property result", result);
+
       if (result.status == 200) {
         setProperty(result.data.data);
       }
     } catch (error) {}
   };
-  const homeId = properties?.[0]?.id;
+  console.log("Properties", properties);
+
+  const homeId = properties.map((p) => p.id);
+  console.log("Home IDs", homeId);
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     if (!homeId) return;
+  //     try {
+  //       const result = await _get(`${API_BASE_URL}${ALL_IMG}`);
+  //       console.log("Image result", result);
+  //       const images = result?.data?.data || [];
+  //       setimagePath(images);
+  //     } catch (error) {
+  //       console.error("Error fetching images:", error);
+  //     }
+  //   };
+
+  //   fetchImages();
+  // }, [homeId]);
   useEffect(() => {
     const fetchImages = async () => {
-      if (!homeId) return;
+      if (!properties.length) return;
       try {
         const result = await _get(`${API_BASE_URL}${ALL_IMG}`);
+        // console.log("Image result", result);
         const images = result?.data?.data || [];
         setimagePath(images);
       } catch (error) {
@@ -51,10 +72,11 @@ const OurProjects = () => {
     };
 
     fetchImages();
-  }, [homeId]);
+  }, [properties]);
   const chunkSize = 3;
   const groupedProperties = [];
   for (let i = 0; i < properties.length; i += chunkSize) {
+    // console.log("Properties", properties.slice(i, i + chunkSize));
     groupedProperties.push(properties.slice(i, i + chunkSize));
   }
   const handleButtonClick = (property) => {
@@ -85,7 +107,8 @@ const OurProjects = () => {
     realestateLogo5,
     realestateLogo6,
   ];
-
+  // console.log("groupedProperties", groupedProperties);
+  // console.log("ImagePath", ImagePath);
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -142,9 +165,9 @@ const OurProjects = () => {
                         console.error("Error filtering ImagePath:", error);
                       }
 
-                      // const baseUrl = "http://localhost:8080";
-                      const baseUrl = "https://smartplan-be.vercel.app";
-                      console.log("image array", imageArray);
+                      const baseUrl = "http://localhost:8080";
+                      // const baseUrl = "https://smartplan-be.vercel.app";
+
                       const imageUrl =
                         imageArray.length > 0
                           ? `${baseUrl}${imageArray[0]}`

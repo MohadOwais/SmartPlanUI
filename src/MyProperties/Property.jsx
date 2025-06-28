@@ -34,10 +34,10 @@ const Property = () => {
   // Get current properties to display
   const indexOfLastProperty = currentPage * propertiesPerPage;
   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const currentProperties = properties.slice(
-    indexOfFirstProperty,
-    indexOfLastProperty
-  );
+  // const currentProperties = properties.slice(
+  //   indexOfFirstProperty,
+  //   indexOfLastProperty
+  // );
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -50,40 +50,7 @@ const Property = () => {
       setCurrentPage(currentPage - 1);
     }
   };
-  // useEffect(() => {
-  //   getPropertyData();
-  //   fetchImages();
-  // }, []);
-  // const getPropertyData = async () => {
-  //   try {
-  //     let result; // Declare result before the if-else block
 
-  //     if (userId != null) {
-  //       result = await _get(`${API_BASE_URL}${GET_HOME_BASEROLES}${userId}`);
-  //     } else {
-  //       result = await _get(`${API_BASE_URL}${GET_HOME}`);
-  //     }
-  //     if (result.status === 200) {
-  //       setProperty(result.data.data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching property data:", error);
-  //   }
-  // };
-
-  // const fetchImages = async () => {
-  //   try {
-  //     console.log("id is", properties);
-  //     const result = await _get(
-  //       `${API_BASE_URL}${PROPERTY_IMG}${properties[0].id}`
-  //     );
-  //     const images = result?.data?.data || [];
-  //     setimagePath(images);
-  //   } catch (error) {
-  //     console.error("Error fetching images:", error);
-  //   }
-  // };
-  // console.log("before mages", ImagePath);
   useEffect(() => {
     getPropertyData();
   }, []);
@@ -104,6 +71,7 @@ const Property = () => {
       } else {
         result = await _get(`${API_BASE_URL}${GET_HOME}`);
       }
+   
 
       if (result.status === 200) {
         setProperty(result.data.data);
@@ -136,8 +104,10 @@ const Property = () => {
       (selectedType === "" || property.type === selectedType)
     );
   });
+  console.log(properties); // ✅ This will show the array of properties
+
   const handleButtonClick = (property) => {
-    // console.log("property data", properties);
+    console.log("property data", properties);
     navigate("/property-details", { state: { property } });
 
     // You can pass the property data to a new route or modal, depending on your application flow.
@@ -280,250 +250,6 @@ const Property = () => {
                 </select>
               </div>
               <div className="container">
-                {/* <div className="row">
-                  {filteredProperties
-                    .slice(indexOfFirstProperty, indexOfLastProperty)
-                    .map((property) => {
-                      let imageArray = [];
-                      try {
-                        console.log("img path", ImagePath);
-                        imageArray = ImagePath.map((img) => img.images);
-                      } catch (error) {
-                        console.error("Error parsing ImagePath:", error);
-                      }
-                      const baseUrl = "http://localhost:8080";
-                      const imageUrl =
-                        imageArray.length > 0
-                          ? `${baseUrl}${imageArray[2]}`
-                          : `${building2}`;
-
-                      console.log("img", imageUrl);
-                      return (
-                        <div className="col-lg-4 col-md-12" key={property.id}>
-                          <div
-                            className="card"
-                            style={{
-                              width: "100%",
-                              maxWidth: "450px",
-                              height: "100%",
-                              maxHeight: "350px",
-                              minHeight: "500px",
-                              marginTop: "20px",
-                              borderRadius: "20px",
-                            }}
-                          >
-                            <div
-                              className="card-body"
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-around",
-                              }}
-                            >
-                              <div>
-                                <img
-                                  src={imageUrl}
-                                  className="d-block w-100"
-                                  alt={property.ApartmentName}
-                                  style={{
-                                    maxHeight: "300px",
-                                    minWidth: "350px",
-                                    minHeight: "300px",
-                                  }}
-                                />
-                                <h3
-                                  style={{
-                                    color: "#3c2415",
-                                    marginTop: "5px",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {property.ApartmentName}
-                                </h3>
-                                <div style={{ display: "flex", gap: "12px" }}>
-                                  <i
-                                    className="bi bi-geo-alt"
-                                    style={{
-                                      fontSize: "20px",
-                                      marginRight: "0px",
-                                    }}
-                                  ></i>
-                                  <span style={{ fontSize: "18px" }}>
-                                    {property.area}
-                                  </span>
-                                  <div style={{ color: "#3c2415" }}>
-                                    <div>
-                                      <i
-                                        className="bi bi-arrows-fullscreen"
-                                        style={{
-                                          fontSize: "20px",
-                                          marginRight: "10px",
-                                        }}
-                                      ></i>
-                                      <span style={{ fontSize: "18px" }}>
-                                        1200sq
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div style={{ color: "#3c2415" }}>
-                                    <div>
-                                      <i
-                                        className="bi bi-pencil-square"
-                                        style={{
-                                          fontSize: "20px",
-                                          marginRight: "10px",
-                                        }}
-                                      ></i>
-                                      <span style={{ fontSize: "18px" }}>
-                                        {property.selectPlan === 0
-                                          ? "Ready"
-                                          : "OffPlan"}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <hr />
-                                <button
-                                  style={{
-                                    color: "white",
-                                    width: "100%",
-                                    backgroundColor: "#3c2415",
-                                    border: "2px solid #decaaf",
-                                  }}
-                                  onClick={() => handleButtonClick(property)}
-                                >
-                                  Book Now
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div> */}
-                {/* <div className="row">
-                  
-                  {filteredProperties
-                    .slice(indexOfFirstProperty, indexOfLastProperty)
-                    .map((property) => {
-                      let imageArray = [];
-                      try {
-                        imageArray = ImagePath.filter(
-                          (img) => img.homeId === property.id
-                        ).map((img) => img.images);
-                      } catch (error) {
-                        console.error("Error filtering ImagePath:", error);
-                      }
-
-                      const baseUrl = "http://localhost:8080";
-                      const imageUrl =
-                        imageArray.length > 0
-                          ? `${baseUrl}${imageArray[0]}`
-                          : `${building2}`;
-
-                      console.log("img", imageUrl);
-
-                      return (
-                        <div className="col-lg-4 col-md-12" key={property.id}>
-                          <div
-                            className="card"
-                            style={{
-                              width: "100%",
-                              maxWidth: "450px",
-                              height: "100%",
-                              maxHeight: "350px",
-                              minHeight: "500px",
-                              marginTop: "20px",
-                              borderRadius: "20px",
-                            }}
-                          >
-                            <div
-                              className="card-body"
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-around",
-                              }}
-                            >
-                              <div>
-                                <img
-                                  src={imageUrl}
-                                  className="d-block w-100"
-                                  alt={property.ApartmentName}
-                                  style={{
-                                    maxHeight: "300px",
-                                    minWidth: "350px",
-                                    minHeight: "300px",
-                                  }}
-                                />
-                                <h3
-                                  style={{
-                                    color: "#3c2415",
-                                    marginTop: "5px",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {property.ApartmentName}
-                                </h3>
-                                <div style={{ display: "flex", gap: "12px" }}>
-                                  <i
-                                    className="bi bi-geo-alt"
-                                    style={{
-                                      fontSize: "20px",
-                                      marginRight: "0px",
-                                    }}
-                                  ></i>
-                                  <span style={{ fontSize: "18px" }}>
-                                    {property.area}
-                                  </span>
-                                  <div style={{ color: "#3c2415" }}>
-                                    <div>
-                                      <i
-                                        className="bi bi-arrows-fullscreen"
-                                        style={{
-                                          fontSize: "20px",
-                                          marginRight: "10px",
-                                        }}
-                                      ></i>
-                                      <span style={{ fontSize: "18px" }}>
-                                        1200sq
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div style={{ color: "#3c2415" }}>
-                                    <div>
-                                      <i
-                                        className="bi bi-pencil-square"
-                                        style={{
-                                          fontSize: "20px",
-                                          marginRight: "10px",
-                                        }}
-                                      ></i>
-                                      <span style={{ fontSize: "18px" }}>
-                                        {property.selectPlan === 0
-                                          ? "Ready"
-                                          : "OffPlan"}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <hr />
-                                <button
-                                  style={{
-                                    color: "white",
-                                    width: "100%",
-                                    backgroundColor: "#3c2415",
-                                    border: "2px solid #decaaf",
-                                  }}
-                                  onClick={() => handleButtonClick(property)}
-                                >
-                                  Book Now
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div> */}
                 <div className="container">
                   <div className="row">
                     {filteredProperties
@@ -531,14 +257,17 @@ const Property = () => {
                       .map((property) => {
                         let imageArray = [];
                         try {
+                          // ...existing code...
                           imageArray = ImagePath.filter(
-                            (img) => img.homeId === property.id
+                            (img) => Number(img.homeId) === Number(property.id)
                           ).map((img) => img.images);
+                          // ...existing code...
                         } catch (error) {
                           console.error("Error filtering ImagePath:", error);
                         }
 
                         const baseUrl = "http://localhost:8080";
+
                         const imageUrl =
                           imageArray.length > 0
                             ? `${baseUrl}${imageArray[0]}`

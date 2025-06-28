@@ -24,6 +24,7 @@ const FeatureList = () => {
   const fetchData = async () => {
     try {
       const result = await _get(`${API_BASE_URL}${LIST_OF_FEATURES}`);
+
       if (result.status === 200) {
         setData(result.data.data);
       }

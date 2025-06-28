@@ -4,6 +4,9 @@ import bedRoom2 from "../assets/bedRoom2.jpg";
 import bedRoom3 from "../assets/bedRoom3.jpg";
 import slidersCard1 from "../assets/slidersCard1.jpg";
 import slidersCard2 from "../assets/slidersCard2.jpg";
+import openLand from "../assets/openLand.jpg";
+import office from "../assets/office.jpg";
+
 import { motion } from "framer-motion";
 
 const MyCards = () => {
@@ -46,14 +49,6 @@ const MyCards = () => {
         </div>
 
         <div className="row align-items-center mb-5">
-          {/* <div className="col-lg-6 d-flex justify-content-center">
-            <img
-              src={slidersCard1}
-              style={{ width: "400px", height: "200px", borderRadius: "20px" }}
-              alt="Villa View"
-              className="img-fluid rounded shadow"
-            />
-          </div> */}
           <div className="col-lg-6 d-flex justify-content-center">
             {isVisible && (
               <motion.img
@@ -110,6 +105,84 @@ const MyCards = () => {
             {isVisible && (
               <motion.img
                 src={slidersCard2}
+                alt="Apartment View"
+                className="img-fluid rounded shadow"
+                style={{
+                  width: "400px",
+                  height: "200px",
+                  borderRadius: "20px",
+                }}
+                initial={{ x: 200, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 1 }}
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="row align-items-center mb-5">
+          <div className="col-lg-6 d-flex justify-content-center">
+            {isVisible && (
+              <motion.img
+                src={openLand}
+                alt="Villa View"
+                className="img-fluid rounded shadow"
+                style={{
+                  width: "400px",
+                  height: "200px",
+                  borderRadius: "20px",
+                }}
+                initial={{ x: -200, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 1 }}
+              />
+            )}
+          </div>
+
+          <div className="col-lg-6">
+            <h2 className="mb-5 mt-5">Open Land</h2>
+            <p
+              className="lead"
+              style={{
+                fontFamily: `'Google Sans', 'Product Sans', Roboto, Arial, sans-serif`,
+                fontSize: "18px",
+              }}
+            >
+              Experience the pinnacle of luxurious living with Smartplan’s Open
+              Land collection. Our premium villas are thoughtfully designed to
+              harmonize with serene landscapes, offering a perfect blend of
+              modern architecture and natural beauty. Whether you're seeking a
+              peaceful retreat, a stylish home, or a promising investment,
+              Smartplan delivers tailored villa plans that exceed expectations.
+              Discover the smart way to invest in your future—discover Open
+              Land.
+            </p>
+          </div>
+        </div>
+
+        <div className="row align-items-center">
+          <div className="col-lg-6">
+            <h2 className="mb-3">Office</h2>
+            <p
+              className="lead"
+              style={{
+                fontFamily: `'Google Sans', 'Product Sans', Roboto, Arial, sans-serif`,
+                fontSize: "18px",
+              }}
+            >
+              Redefine the way you work with Smartplan’s premium office spaces.
+              Designed for productivity and prestige, our office solutions
+              combine modern infrastructure, strategic locations, and sleek
+              design to create an inspiring work environment. Whether you're
+              launching a startup or expanding your enterprise, Smartplan offers
+              flexible, future-ready spaces tailored to your business needs.
+              Build smarter, work better—choose Smartplan Offices.
+            </p>
+          </div>
+          <div className="col-lg-6 d-flex justify-content-center">
+            {isVisible && (
+              <motion.img
+                src={office}
                 alt="Apartment View"
                 className="img-fluid rounded shadow"
                 style={{

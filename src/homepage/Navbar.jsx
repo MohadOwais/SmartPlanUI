@@ -17,12 +17,36 @@ const Navbar = () => {
   useEffect(() => {
     getRoles();
   }, []);
-  const getRoles = async () => {
-    const result = await _get(`${API_BASE_URL}${GET_ROLES}${userId}`);
-    setDataroles(result.data.data);
-    const updatedRoles = result.data.data;
+  // const getRoles = async () => {
+  //   const result = await _get(`${API_BASE_URL}${GET_ROLES}${userId}`);
+  //   setDataroles(result.data.data);
+  //   console.log("Roles Data:", result.data.data);
+  //   const updatedRoles = result.data.data;
 
-    setResponseData(updatedRoles[0].usertype);
+  //   setResponseData(updatedRoles[0].usertype);
+  // };
+
+  const getRoles = async () => {
+    try {
+      const result = await _get(`${API_BASE_URL}${GET_ROLES}${userId}`);
+      const rolesData = result?.data?.data;
+
+      // console.log("Roles Data:", rolesData);
+
+      // Save the raw response
+      setDataroles(rolesData);
+
+      if (Array.isArray(rolesData) && rolesData.length > 0) {
+        setResponseData(rolesData[0].usertype);
+      } else if (rolesData && typeof rolesData === "object") {
+        setResponseData(rolesData.usertype); // for single object
+      } else {
+        console.warn("No roles found for the user.");
+        setResponseData(null);
+      }
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
   };
 
   const handleLogin = () => {
@@ -31,17 +55,12 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.clear();
   };
+
   return (
     <>
       <div className="container">
         <nav className="navbar navbar-expand-lg">
           <a href="/">
-            {/* <img
-              className="logoClass"
-              src={logo}
-              alt="logo img"
-              style={{ height: "50px" }}
-            /> */}
             <img
               className="logoClass"
               src={ComapanyLogo}
@@ -90,7 +109,7 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li className="nav-item" style={{ margin: "0 15px" }}>
-                    <a className="nav-link" href="#">
+                    <a className="nav-link" href="/about-us">
                       About us
                     </a>
                   </li>
@@ -209,7 +228,7 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li className="nav-item" style={{ margin: "0 15px" }}>
-                    <a className="nav-link" href="#">
+                    <a className="nav-link" href="/about-us">
                       About us
                     </a>
                   </li>
@@ -262,7 +281,7 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li className="nav-item" style={{ margin: "0 15px" }}>
-                    <a className="nav-link" href="#">
+                    <a className="nav-link" href="/about-us">
                       About us
                     </a>
                   </li>

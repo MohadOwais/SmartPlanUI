@@ -3,11 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Logoimg from "../assets/logo.png";
+
 // import Homeimg from "../assets/home.jpg";
 
-
 import "../publicCSS/public.css";
-import MyCards from "./MyCards";
+import MyCards from "./myCards";
 import Navbar from "./Navbar";
 import OurProjects from "./OurProjects";
 import ImagesSlider from "../ImagesSliders/ImagesSliders";

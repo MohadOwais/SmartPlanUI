@@ -1,5 +1,6 @@
-// export const API_BASE_URL = "http://localhost:8080/v1/";
-export const API_BASE_URL = "https://smartplan-be.vercel.app/v1/";
+export const API_BASE_URL = "http://localhost:8080/v1/";
+// export const API_BASE_URL = "https://smartplan-be.vercel.app/v1/";
+// export const API_BASE_URL = "http://owais.intencode.com/v1/";
 
 //Auth
 export const LOGIN = "auth/login";
@@ -16,7 +17,8 @@ export const ADD_HOME_LIST = "house/add-house-plan";
 export const LIST_PROPERTY = "/home/get-property-onrole/";
 export const UPDATE_PROPERTY = "/home/property-update/";
 export const PROPERTY_IMG = "home/get-img-Apartmnet/";
-export const ALL_IMG = "/home/get-all-img";
+export const ALL_FACILITY_FEATURES = "home/get-all-featues-facilities/";
+export const ALL_IMG = "home/get-all-img";
 export const HOME_LISTING = "house/list-house-plan";
 export const UPDATE_LISTING = "house/update-house-plan/";
 export const LIST_OF_FEATURES = "feature/get-home_feature";

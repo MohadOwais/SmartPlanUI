@@ -16,6 +16,7 @@ import Editproperty from "./AddProperties/Editproperty";
 import ContactUs from "./ContactUs/ContactUs";
 import FeatureList from "./datamanagement/Features/FeatureList";
 import FacilitiesList from "./datamanagement/Facilities/FacilitiesList";
+import Aboutus from "./Aboutus/Aboutus";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/Edit-property/:id" element={<Editproperty />} />
           <Route path="/Edit-Listing/:id" element={<EditListing />} />
           <Route path="/Contact" element={<ContactUs />} />
+          <Route path="/about-us" element={<Aboutus />} />
           <Route path="/property-details" element={<PropertyDetails />} />
           <Route path="/Feature-list" element={<FeatureList />} />
           <Route path="/Facilities-list" element={<FacilitiesList />} />

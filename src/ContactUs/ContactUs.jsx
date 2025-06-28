@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../homepage/Navbar";
 import ContactUsImg from "../assets/ContactUs.jpg";
-import Logoimg from "../assets/logo.png";
+import Logoimg from "../assets/ComapanyLogo.jpg";
 const ContactUs = () => {
   return (
     <>
