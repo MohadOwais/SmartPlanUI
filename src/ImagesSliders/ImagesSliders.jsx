@@ -1,15 +1,45 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../homepage/Navbar";
-import HomeCard from "../assets/Homecard.avif";
-import HomeCard2 from "../assets/Homecard2.avif";
-import HomeCard3 from "../assets/Homecard3.avif";
+import { _get } from "../../services/services_api";
+import {
+  ALL_IMG,
+  API_BASE_URL,
+  IMG_API_BASE_URL,
+} from "../../services/end_points";
 const ImageCarousel = () => {
-  const images = [
-    HomeCard,
-    // "https://picsum.photos/id/1003/600/400",
-    HomeCard2,
-    HomeCard3,
-  ];
+  const [ImagePath, setimagePath] = useState([]);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    try {
+      const result = await _get(`${IMG_API_BASE_URL}/${ALL_IMG}`);
+
+      const allImages = result?.data?.data || [];
+      // console.log("all Images", allImages);
+      // Get the first image for each unique homeId
+      const firstImagesMap = {};
+      allImages.forEach((img) => {
+        if (!firstImagesMap[img.homeId]) {
+          firstImagesMap[img.homeId] = img;
+        }
+      });
+      const firstImages = Object.values(firstImagesMap);
+
+      // Prepend API base URL if needed
+      const imageBaseUrl = `${IMG_API_BASE_URL}`; // correct
+      const imageUrls = firstImages.map(
+        (img) => `${imageBaseUrl}${img.images}`
+      );
+
+      setImages(imageUrls);
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    }
+  };
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = images.length;
@@ -116,59 +146,27 @@ const ImageCarousel = () => {
             to communities with top-notch amenities. Your ideal living space is
             just a step away.
           </p>
-
-          <div
-            style={{
-              position: "relative",
-              width: "300px",
-              marginTop: "10px",
-              marginBottom: "20px",
-            }}
-          >
-            <a href="/property">
-              <i
-                className="bi bi-search"
-                style={{
-                  position: "absolute",
-                  right: "12px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  color: "#999",
-                  fontSize: "16px",
-                }}
-              ></i>
-            </a>
-            <input
-              type="text"
-              placeholder="Search"
-              style={{
-                width: "100%",
-                padding: "10px 40px 10px 12px",
-                borderRadius: "12px",
-                border: "1px solid #ccc",
-                fontSize: "14px",
-                fontFamily: `'Google Sans', 'Product Sans', Roboto, Arial, sans-serif`,
-                // borderRadius: "12px",
-              }}
-            />
-          </div>
         </div>
 
         <div style={containerStyle}>
-          {images.map((src, index) => (
-            <div key={index} style={getPositionStyle(index)}>
-              <img
-                src={src}
-                alt={`img-${index}`}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
-            </div>
-          ))}
+          {[...Array(3)].map((_, i) => {
+            // Calculate the index for previous, current, next
+            const idx = (currentIndex - 1 + i + images.length) % images.length;
+            return (
+              <div key={idx} style={getPositionStyle(idx)}>
+                <img
+                  src={images[idx]}
+                  alt={`img-${idx}`}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

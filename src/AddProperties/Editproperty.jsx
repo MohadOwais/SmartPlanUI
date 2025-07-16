@@ -2,24 +2,30 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "../homepage/Navbar";
 import Addusers from "../assets/Addusers.jpeg";
-import Logoimg from "../assets/logo.png";
-import { _get, _post } from "../../services/services_api";
+import Logoimg from "../assets/ComapanyLogo.jpg";
+import { _delete, _get, _post } from "../../services/services_api";
 import {
   ADD_HOME,
   API_BASE_URL,
   GET_USER,
   IMG_API_BASE_URL,
+  LIST_OF_Facilities,
+  LIST_OF_FEATURES,
+  PROPERTY_IMG,
+  DELETE_PROPERTY_IMG,
+  Filter_Featutes_FACILITIES,
+  DELETE_FEATURES_FACILITIES,
 } from "../../services/end_points";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
 const Editproperty = () => {
   const location = useLocation();
   const { id, user } = location.state;
   const userId = user.id;
   const editing = true;
+  // console.log("user edit data", user);
   const [manageFields, setManageFields] = useState(false);
-  const [users, setUsers] = useState([]);
+
   const [formData, setFormData] = useState({
     selectPlan: editing ? user.selectPlan : "",
     companyName: editing ? user.companyName : "",
@@ -31,8 +37,8 @@ const Editproperty = () => {
     CurrentLocation: editing ? user.CurrentLocation : "",
     NearBy: editing ? user.NearBy : [],
     Overview: editing ? user.Overview : "",
-    Facilities: editing ? user.Facilities : [],
-    Features: editing ? user.Features : [],
+    Facilities: Array.isArray(user.Facilities) ? user.Facilities : [],
+    Features: Array.isArray(user.Features) ? user.Features : [],
     BedroomSize: editing ? user.BedRoomSize : "",
     BathroomSize: editing ? user.BathRoomSize : "",
     Grage: editing ? user.Grage : "",
@@ -41,9 +47,9 @@ const Editproperty = () => {
     Owner: editing ? user.Owner : "",
     UserId: editing ? user.UserId : "",
   });
-  //   console.log("fomdata", formData);
   const [modal, setModal] = useState(false);
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
   const [normalPlanData, setNormalPlanData] = useState(["", "", ""]);
   const [PriceData, setPriceData] = useState({
     selectPlan: "0",
@@ -57,70 +63,134 @@ const Editproperty = () => {
     duringConstructionHP: "",
     uponHandoverHP: "",
   });
-
-  // "[{\"unit\":\"Apartment\",\"area\":\"1600sqt\",\"price\":\"5500AED\"}]"
-  //   const [rows, setRows] = useState([
-  //     {
-  //       unit: editing ? user.unit : "",
-  //       area: editing ? user.area : "",
-  //       price: editing ? user.price : "",
-  //     },
-  //   ]);
-  const [rows, setRows] = useState(() => {
-    const parsedData =
-      editing && user.TableContent ? JSON.parse(user.TableContent) : [];
-    return parsedData.length > 0
-      ? parsedData
-      : [{ unit: "", area: "", price: "" }];
-  });
+  const [rows, setRows] = useState([{ unit: "", areaSQft: "", price: "" }]);
+  // const userId = localStorage.getItem("userId");
+  const [data, setData] = useState([]);
+  const [dataFeatures, setDataFeatures] = useState([]);
+  const [propertyImages, setPropertyImages] = useState([]);
   const addRow = () => {
-    setRows([...rows, { unit: "", area: "", price: "" }]);
+    setRows([...rows, { unit: "", areaSQft: "", price: "" }]);
   };
+
+  const fetchData = async () => {
+    try {
+      const result = await _get(`${API_BASE_URL}${LIST_OF_Facilities}`);
+
+      if (result.status === 200) {
+        setData(result.data.data);
+      }
+    } catch (error) {
+      console.log("Error fetching facility data", error);
+    }
+  };
+
+  const fetchFeaturesData = async () => {
+    try {
+      const result = await _get(`${API_BASE_URL}${LIST_OF_FEATURES}`);
+      if (result.status === 200) {
+        setDataFeatures(result.data.data);
+      }
+    } catch (error) {
+      console.log("Error fetching feature data", error);
+    }
+  };
+
   const handleChange = (index, event) => {
     const { name, value } = event.target;
     const updatedRows = [...rows];
     updatedRows[index][name] = value;
     setRows(updatedRows);
-    handleInputChange({
-      target: { name: "Tablecontent", value: JSON.stringify(updatedRows) },
-    });
   };
 
   useEffect(() => {
     setPriceData((prev) => ({
       ...prev,
-      nameOfappt: formData.ApartmentName || "", // Ensure it's not undefined
+      nameOfappt: formData.ApartmentName || "",
     }));
-    fetchUser();
+    // fetchUser();
+    fetchData();
+    fectImg();
+    fetchFilter();
+    fetchFeaturesData();
   }, [formData.ApartmentName]);
 
-  const fetchUser = async () => {
-    try {
-      const result = await _get(`${API_BASE_URL}${GET_USER}`);
+  useEffect(() => {
+    setManageFields(formData.selectPlan === 1);
+  }, [formData.selectPlan]);
 
-      if (result.status === 200 && result.data?.data) {
-        setUsers(result.data.data); // Extract 'data' array
-      } else {
-        setUsers([]); // Ensure it's an empty array on error
+  useEffect(() => {
+    // Only run if editing and user.tableBody exists
+    if (editing && user.tableBody) {
+      try {
+        const parsedRows = JSON.parse(user.tableBody).map((row) => ({
+          unit: row.unit || "",
+          areaSQft: row.area || "",
+          price: row.startprice || "",
+        }));
+        setRows(parsedRows);
+      } catch (e) {
+        // fallback to default if parsing fails
+        setRows([{ unit: "", areaSQft: "", price: "" }]);
+      }
+    }
+  }, [editing, user]);
+
+  const fectImg = async () => {
+    try {
+      const result = await _get(`${API_BASE_URL}${PROPERTY_IMG}${user.id}`);
+      // console.log("img", result);
+      if (result.status === 200 && result.data.data) {
+        const imageObjs = result.data.data.map((imgObj) => ({
+          id: imgObj.id,
+          path: imgObj.images,
+        }));
+        setFile(imageObjs);
       }
     } catch (error) {
-      console.error("Error fetching users", error);
-      setUsers([]); // Prevent map error
+      console.log("Error fetching facility data", error);
     }
   };
+  const [activeFacilities, setActiveFacilities] = useState([]);
+  const [activeFeatures, setActiveFeatures] = useState([]);
+  const [selectedFacilities, setSelectedFacilities] = useState([]); // array of IDs
+  const [selectedFeatures, setSelectedFeatures] = useState([]); // array of IDs
 
+  const fetchFilter = async () => {
+    try {
+      const result = await _get(
+        `${API_BASE_URL}${Filter_Featutes_FACILITIES}${user.id}`
+      );
+
+      if (result.status === 200 && result.data.data) {
+        const facilities = [];
+        const features = [];
+        result.data.data.forEach((item) => {
+          if (item.facility_name && !facilities.includes(item.facility_name)) {
+            facilities.push(item.facility_name);
+          }
+          if (item.feature_name && !features.includes(item.feature_name)) {
+            features.push(item.feature_name);
+          }
+        });
+        setActiveFacilities(facilities);
+        setActiveFeatures(features);
+      }
+    } catch (error) {
+      console.log("Error fetching filter data", error);
+    }
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value, // Update the corresponding field in formData
+      [name]: value,
     }));
   };
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
     setPriceData((prevPriceData) => ({
       ...prevPriceData,
-      [name]: value, // Update the corresponding field in PriceData
+      [name]: value,
     }));
   };
 
@@ -128,53 +198,113 @@ const Editproperty = () => {
     setFile([...e.target.files]);
   };
 
-  const handleCheckboxChange = (e, key) => {
+  const handleCheckboxChange = async (e, key) => {
     const { value, checked } = e.target;
+    const id = Number(value); // Always store as number
+
+    const currentArr = Array.isArray(formData[key]) ? formData[key] : [];
     if (checked) {
-      setFormData({ ...formData, [key]: [...formData[key], value] });
+      setFormData({ ...formData, [key]: [...currentArr, id] });
     } else {
       setFormData({
         ...formData,
-        [key]: formData[key].filter((item) => item !== value),
+        [key]: currentArr.filter((item) => item !== id),
       });
+
+      // Call backend delete API for both Facilities and Features
+      try {
+        if (key === "Facilities") {
+          await axios.delete(
+            `${API_BASE_URL}${DELETE_FEATURES_FACILITIES}${user.id}?facility=${id}`
+          );
+        } else if (key === "Features") {
+          await axios.delete(
+            `${API_BASE_URL}${DELETE_FEATURES_FACILITIES}${user.id}?feature=${id}`
+          );
+        }
+      } catch (error) {
+        console.error("Error deleting:", error);
+      }
     }
   };
+
+  const [newFiles, setNewFiles] = useState([]);
+
+  const getTableDataAsJson = () => {
+    return rows.map((row) => ({
+      unit: row.unit,
+      area: row.areaSQft,
+      startprice: row.price,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setModal(true);
-    // setFormData({ Tablecontent: JSON.stringify(rows) });
-    console.log("inputs in submit function", formData);
+    const Id = localStorage.getItem("userId");
+    if (!id) {
+      alert("User ID not found in local storage.");
+      return;
+    }
     try {
-      if (file && file.length > 0) {
-        const fileData = new FormData();
+      let submitData = {
+        ...formData,
+        Tablecontent: getTableDataAsJson(), // Always send mapped table data
+        UserId: Id, // Force-set userId here in formData
+      };
+      if (!manageFields) {
+        submitData.Tablecontent = rows;
+      }
+      const fileData = new FormData();
 
-        // Append multiple images
-        for (let i = 0; i < file.length; i++) {
-          fileData.append("image", file[i]); // `image` should match your multer field name
+      // Only append new files
+      if (newFiles && newFiles.length > 0) {
+        for (let i = 0; i < newFiles.length; i++) {
+          fileData.append("image", newFiles[i]);
         }
+      }
 
-        for (const key in formData) {
-          if (Array.isArray(formData[key])) {
-            formData[key].forEach((item) => {
-              fileData.append(`${key}[]`, item);
-            });
-          } else {
-            fileData.append(key, formData[key]);
-          }
+      // Add other fields
+      for (const key in submitData) {
+        if (Array.isArray(submitData[key])) {
+          submitData[key].forEach((item) => {
+            fileData.append(`${key}[]`, item);
+          });
+        } else {
+          fileData.append(key, submitData[key]);
         }
+      }
 
-        // // Debugging
-        // for (let pair of fileData.entries()) {
-        //   console.log(pair[0] + ", " + pair[1]);
-        // }
-
-        const response = await axios.put(
-          // `http://localhost:8080/property-update/${userId}`,
+      if (newFiles && newFiles.length > 0) {
+        // ... upload with images
+        await axios.put(
           `${IMG_API_BASE_URL}/property-update/${userId}`,
           fileData
         );
-        console.log("res API", response);
+        alert("Property Updated successfully!");
+        navigate("/property");
+        setFormData({
+          selectPlan: "0",
+          propertyType: "",
+          area: "",
+          ImagePath: null,
+          CurrentLocation: "",
+          NearBy: [],
+          Overview: "",
+          Facilities: [],
+          Owner: "",
+        });
+        setNewFiles([]); // Clear new files after upload
+        navigate("/property");
+      } else {
+        // Send update without images
+        const response = await axios.put(
+          `${IMG_API_BASE_URL}/property-update/${userId}`,
+          submitData // or use FormData if your backend expects it
+        );
         if (response.status === 200) {
+          alert("Property Updated successfully!");
+          navigate("/property");
           setFormData({
             selectPlan: "0",
             propertyType: "",
@@ -186,6 +316,7 @@ const Editproperty = () => {
             Facilities: [],
             Owner: "",
           });
+          navigate("/property");
         }
       }
     } catch (error) {
@@ -199,6 +330,7 @@ const Editproperty = () => {
     try {
       const response = await axios.post(
         `${IMG_API_BASE_URL}/price/price-plan`,
+
         PriceData
       );
       if (response.status === 200) {
@@ -214,6 +346,11 @@ const Editproperty = () => {
           duringConstructionHP: "",
           uponHandoverHP: "",
         });
+        const modalElement = document.getElementById("staticBackdrop");
+        const modalInstance = bootstrap.Modal.getInstance(modalElement); // For Bootstrap v5
+        if (modalInstance) {
+          modalInstance.hide();
+        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -225,15 +362,22 @@ const Editproperty = () => {
 
     setFormData((prevFormData) => ({
       ...prevFormData,
-      selectPlan: isChecked ? "1" : "0", // Store as '1' or '0'
+      selectPlan: isChecked ? 1 : 0, // Store as '1' or '0'
     }));
 
     setPriceData((prevPriceData) => ({
       ...prevPriceData,
-      selectPlan: isChecked ? "1" : "0", // ✅ Corrected from prevPriceData to selectPlan
+      selectPlan: isChecked ? 1 : 0, // ✅ Corrected from prevPriceData to selectPlan
     }));
   };
-
+  const handleDeleteImg = async (id) => {
+    try {
+      await _delete(`${API_BASE_URL}${DELETE_PROPERTY_IMG}${id}`);
+      fectImg(); // Refresh images after delete
+    } catch (error) {
+      console.error("Error deleting image:", error);
+    }
+  };
   // const handleCheckbox = (e) => {
   //   const isChecked = e.target.checked; // Get checkbox state
   //   setManageFields(isChecked); // Update manageFields state
@@ -247,9 +391,40 @@ const Editproperty = () => {
   //     prevPriceData: isChecked ? "1" : "0", // Store as '1' or '0'
   //   }));
   // };
+  // console.log("inputs",formData)
+  // console.log("files",file)
+  const handleAddMoreImages = async (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    setNewFiles(files); // Only store new files here
 
+    // Optionally, you can upload immediately here, or wait for submit
+  };
+  console.log("Inputs", formData);
+  useEffect(() => {
+    // Only run if both master lists and active names are loaded
+    if (data.length && activeFacilities.length) {
+      const facilityIds = activeFacilities
+        .map((name) => {
+          const found = data.find((f) => f.facility === name);
+          return found ? found.id : null;
+        })
+        .filter(Boolean);
+      setFormData((prev) => ({ ...prev, Facilities: facilityIds }));
+    }
+    if (dataFeatures.length && activeFeatures.length) {
+      const featureIds = activeFeatures
+        .map((name) => {
+          const found = dataFeatures.find((f) => f.feature === name);
+          return found ? found.id : null;
+        })
+        .filter(Boolean);
+      setFormData((prev) => ({ ...prev, Features: featureIds }));
+    }
+  }, [data, dataFeatures, activeFacilities, activeFeatures]);
   return (
     <>
+      <Navbar />
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-12 col-md-12">
@@ -261,7 +436,13 @@ const Editproperty = () => {
                 borderRadius: "20px",
               }}
             >
-              <div className="card-body" style={{ backgroundColor: "#3c2415" }}>
+              <div
+                className="card-body"
+                style={{
+                  backgroundColor: "#3c2415",
+                  // background: "#f6eeeb",
+                }}
+              >
                 <div
                   style={{
                     display: "flex",
@@ -296,11 +477,7 @@ const Editproperty = () => {
 
                 <hr />
 
-                <form
-                  onSubmit={handleSubmit}
-                  style={{ width: "100%" }}
-                  encType="multipart/form-data"
-                >
+                <form style={{ width: "100%" }} encType="multipart/form-data">
                   <div className="container">
                     <div className="row">
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
@@ -330,11 +507,8 @@ const Editproperty = () => {
                               className="form-check-input"
                               type="checkbox"
                               id="availabilitySwitch"
-                              checked={
-                                formData.selectPlan === "1" &&
-                                PriceData.selectPlan === "1"
-                              } // Ensure boolean
-                              onChange={handleCheckbox} // Call the updated function
+                              checked={formData.selectPlan === 1}
+                              onChange={handleCheckbox}
                             />
                           </div>
                           <label
@@ -352,7 +526,6 @@ const Editproperty = () => {
                       </div>
                       {manageFields ? (
                         <>
-                          {/* <form onSubmit={Submiting}> */}
                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <input
                               type="text"
@@ -401,6 +574,9 @@ const Editproperty = () => {
                                 Madinat Jumeirah
                               </option>
                               <option value="Business Bay">Business Bay</option>
+                              <option value="Dubai Land Residence Complex">
+                                Dubai Land Residence Complex
+                              </option>
                               <option value="Downtown Dubai">
                                 Downtown Dubai
                               </option>
@@ -451,14 +627,94 @@ const Editproperty = () => {
                             />
                           </div>
                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                            <input
-                              type="file"
-                              name="images"
-                              multiple
-                              className="form-control"
-                              style={{ marginTop: "15px" }}
-                              onChange={handleFileChange}
-                            />
+                            {file && file.length > 0 && (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                {file.map((imgObj, idx) => (
+                                  <div
+                                    key={imgObj.id}
+                                    style={{
+                                      position: "relative",
+                                      display: "inline-block",
+                                    }}
+                                  >
+                                    <img
+                                      src={IMG_API_BASE_URL + imgObj.path}
+                                      alt={`Property ${idx + 1}`}
+                                      style={{
+                                        width: "80px",
+                                        height: "80px",
+                                        objectFit: "cover",
+                                        marginRight: "8px",
+                                        borderRadius: "8px",
+                                        border: "1px solid #ccc",
+                                      }}
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteImg(imgObj.id)}
+                                      style={{
+                                        position: "absolute",
+                                        top: "2px",
+                                        right: "10px",
+                                        background: "rgba(255,255,255,0.8)",
+                                        border: "none",
+                                        borderRadius: "50%",
+                                        width: "24px",
+                                        height: "24px",
+                                        cursor: "pointer",
+                                        color: "#c00",
+                                        fontWeight: "bold",
+                                        fontSize: "16px",
+                                        lineHeight: "20px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        padding: 0,
+                                      }}
+                                      aria-label="Delete image"
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                ))}
+
+                                <label
+                                  style={{
+                                    cursor: "pointer",
+                                    marginLeft: "8px",
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      display: "inline-block",
+                                      width: "40px",
+                                      height: "40px",
+                                      borderRadius: "50%",
+                                      background: "#decaaf",
+                                      color: "#3c2415",
+                                      fontSize: "2rem",
+                                      textAlign: "center",
+                                      lineHeight: "40px",
+                                      border: "2px solid #3c2415",
+                                    }}
+                                  >
+                                    +
+                                  </span>
+                                  <input
+                                    type="file"
+                                    multiple
+                                    style={{ display: "none" }}
+                                    onChange={handleAddMoreImages}
+                                  />
+                                </label>
+                              </div>
+                            )}
                           </div>
                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <select
@@ -520,16 +776,9 @@ const Editproperty = () => {
                                 marginBottom: "20px",
                               }}
                             >
-                              {[
-                                "Gym",
-                                "Swimming Pool",
-                                "Parking",
-                                "Security",
-                                "Clubhouse",
-                                "Playground",
-                              ].map((facility, index) => (
+                              {data.map((facility) => (
                                 <div
-                                  key={index}
+                                  key={facility.id} // Use facility ID as key
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -538,20 +787,24 @@ const Editproperty = () => {
                                 >
                                   <input
                                     type="checkbox"
-                                    id={`facility${index}`}
-                                    value={facility}
+                                    id={`facility${facility.id}`} // Unique ID
+                                    value={facility.id} // Save ID instead of name
+                                    checked={formData.Facilities.includes(
+                                      facility.id
+                                    )} // <-- check by name
                                     onChange={(e) =>
                                       handleCheckboxChange(e, "Facilities")
                                     }
                                   />
                                   <label
-                                    htmlFor={`facility${index}`}
+                                    htmlFor={`facility${facility.id}`}
                                     style={{
                                       color: "white",
                                       marginLeft: "5px",
                                     }}
                                   >
-                                    {facility}
+                                    {facility.facility}{" "}
+                                    {/* Show name as label */}
                                   </label>
                                 </div>
                               ))}
@@ -571,16 +824,9 @@ const Editproperty = () => {
                                 marginBottom: "20px",
                               }}
                             >
-                              {[
-                                "Air Conditioning",
-                                "Barbeque",
-                                "Dryer",
-                                "Gym",
-                                "Laundry",
-                                "Lawn",
-                              ].map((features, index) => (
+                              {dataFeatures.map((feature) => (
                                 <div
-                                  key={index}
+                                  key={feature.id} // Use facility ID as key
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -589,20 +835,23 @@ const Editproperty = () => {
                                 >
                                   <input
                                     type="checkbox"
-                                    id={`features${index}`}
-                                    value={features}
+                                    id={`feature${feature.id}`} // Unique ID
+                                    value={feature.id} // Save ID instead of name
+                                    checked={formData.Features.includes(
+                                      feature.id
+                                    )} // <-- check by name
                                     onChange={(e) =>
                                       handleCheckboxChange(e, "Features")
                                     }
                                   />
                                   <label
-                                    htmlFor={`features${index}`}
+                                    htmlFor={`feature${feature.id}`}
                                     style={{
                                       color: "white",
                                       marginLeft: "5px",
                                     }}
                                   >
-                                    {features}
+                                    {feature.feature} {/* Show name as label */}
                                   </label>
                                 </div>
                               ))}
@@ -686,7 +935,7 @@ const Editproperty = () => {
                               }}
                             />
                           </div>
-                          <div className="col-xl-6 col-lg-4 col-md-6 col-sm-12 mt-3">
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
                             <div className="table-responsive">
                               <table className="table table-striped">
                                 <thead className="table-secondary">
@@ -713,9 +962,9 @@ const Editproperty = () => {
                                       <td>
                                         <input
                                           type="text"
-                                          name="area"
+                                          name="areaSQft"
                                           placeholder="Enter Area"
-                                          value={row.area}
+                                          value={row.areaSQft}
                                           onChange={(e) =>
                                             handleChange(index, e)
                                           }
@@ -737,6 +986,7 @@ const Editproperty = () => {
                                 </tbody>
                               </table>
                               <button
+                                type="button"
                                 className="btn btn-primary mt-2"
                                 onClick={addRow}
                               >
@@ -744,26 +994,6 @@ const Editproperty = () => {
                               </button>
                             </div>
                           </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                            <select
-                              name="UserId"
-                              className="form-select"
-                              value={formData.UserId || ""}
-                              onChange={handleInputChange}
-                              style={{
-                                marginBottom: "20px",
-                                marginTop: "15px",
-                              }}
-                            >
-                              <option value="">Select Users</option>
-                              {users.map((user) => (
-                                <option key={user.id} value={user.id}>
-                                  {user.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          {/* </form> */}
                         </>
                       ) : (
                         <>
@@ -862,8 +1092,8 @@ const Editproperty = () => {
                                   <option value="Mohammed Bin Rashid City">
                                     Mohammed Bin Rashid City
                                   </option>
-                                  <option value="Jumeirah Islands">
-                                    Jumeirah Islands
+                                  <option value="Jumeirah Islands">
+                                    Jumeirah Islands
                                   </option>
                                   <option value="Jebel Ali">Jebel Ali</option>
                                   <option value="Al Warqa">Al Warqa</option>
@@ -881,14 +1111,96 @@ const Editproperty = () => {
                                 </select>
                               </div>
                               <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <input
-                                  type="file"
-                                  name="images" // Ensure the name here matches the backend multer setup
-                                  multiple
-                                  className="form-control"
-                                  style={{ marginTop: "15px" }}
-                                  onChange={handleFileChange}
-                                />
+                                {file && file.length > 0 && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      marginBottom: "10px",
+                                    }}
+                                  >
+                                    {file.map((imgObj, idx) => (
+                                      <div
+                                        key={imgObj.id}
+                                        style={{
+                                          position: "relative",
+                                          display: "inline-block",
+                                        }}
+                                      >
+                                        <img
+                                          src={IMG_API_BASE_URL + imgObj.path}
+                                          alt={`Property ${idx + 1}`}
+                                          style={{
+                                            width: "80px",
+                                            height: "80px",
+                                            objectFit: "cover",
+                                            marginRight: "8px",
+                                            borderRadius: "8px",
+                                            border: "1px solid #ccc",
+                                          }}
+                                        />
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            handleDeleteImg(imgObj.id)
+                                          }
+                                          style={{
+                                            position: "absolute",
+                                            top: "2px",
+                                            right: "10px",
+                                            background: "rgba(255,255,255,0.8)",
+                                            border: "none",
+                                            borderRadius: "50%",
+                                            width: "24px",
+                                            height: "24px",
+                                            cursor: "pointer",
+                                            color: "#c00",
+                                            fontWeight: "bold",
+                                            fontSize: "16px",
+                                            lineHeight: "20px",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            padding: 0,
+                                          }}
+                                          aria-label="Delete image"
+                                        >
+                                          ×
+                                        </button>
+                                      </div>
+                                    ))}
+
+                                    <label
+                                      style={{
+                                        cursor: "pointer",
+                                        marginLeft: "8px",
+                                      }}
+                                    >
+                                      <span
+                                        style={{
+                                          display: "inline-block",
+                                          width: "40px",
+                                          height: "40px",
+                                          borderRadius: "50%",
+                                          background: "#decaaf",
+                                          color: "#3c2415",
+                                          fontSize: "2rem",
+                                          textAlign: "center",
+                                          lineHeight: "40px",
+                                          border: "2px solid #3c2415",
+                                        }}
+                                      >
+                                        +
+                                      </span>
+                                      <input
+                                        type="file"
+                                        multiple
+                                        style={{ display: "none" }}
+                                        onChange={handleAddMoreImages}
+                                      />
+                                    </label>
+                                  </div>
+                                )}
                               </div>
                               <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                 <input
@@ -903,25 +1215,6 @@ const Editproperty = () => {
                                     marginTop: "15px",
                                   }}
                                 />
-                              </div>
-                              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <select
-                                  name="UserId"
-                                  className="form-select"
-                                  value={formData.UserId || ""}
-                                  onChange={handleInputChange}
-                                  style={{
-                                    marginBottom: "20px",
-                                    marginTop: "15px",
-                                  }}
-                                >
-                                  <option value="">Select Users</option>
-                                  {users.map((user) => (
-                                    <option key={user.id} value={user.id}>
-                                      {user.name}
-                                    </option>
-                                  ))}
-                                </select>
                               </div>
                             </div>
                           </div>
@@ -965,15 +1258,17 @@ const Editproperty = () => {
                           style={{
                             color: "black",
                             width: "100%",
+                            // maxWidth: "300px",
                             backgroundColor: "#decaaf",
                             marginTop: "50px",
                             border: "2px solid #decaaf",
                           }}
+                          onClick={() => navigate("/property")}
                         >
                           Back
                         </button>
                         <button
-                          type="submit"
+                          type="button"
                           style={{
                             color: "black",
                             width: "100%",
@@ -1148,6 +1443,7 @@ const Editproperty = () => {
                   <button
                     className="btn btn-primary"
                     type="submit"
+                    data-bs-dismiss="modal"
                     style={{
                       color: "black",
                       backgroundColor: "#decaaf",
@@ -1165,4 +1461,5 @@ const Editproperty = () => {
     </>
   );
 };
+
 export default Editproperty;

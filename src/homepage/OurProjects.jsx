@@ -40,25 +40,9 @@ const OurProjects = () => {
       }
     } catch (error) {}
   };
-  console.log("Properties", properties);
 
   const homeId = properties.map((p) => p.id);
-  console.log("Home IDs", homeId);
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     if (!homeId) return;
-  //     try {
-  //       const result = await _get(`${API_BASE_URL}${ALL_IMG}`);
-  //       console.log("Image result", result);
-  //       const images = result?.data?.data || [];
-  //       setimagePath(images);
-  //     } catch (error) {
-  //       console.error("Error fetching images:", error);
-  //     }
-  //   };
 
-  //   fetchImages();
-  // }, [homeId]);
   useEffect(() => {
     const fetchImages = async () => {
       if (!properties.length) return;
@@ -301,30 +285,6 @@ const OurProjects = () => {
             borderRadius: "20px",
           }}
         >
-          {/* <div className="container">
-            <div className="row">
-              <div className="col-lg-24 mt-5" style={{ textAlign: "center" }}>
-                <h2>
-                  Ready to Realizes Your Dream House Become Reality with us?
-                </h2>
-                <div class="gallery">
-                  <img
-                    src="https://picsum.photos/id/104/400/400"
-                    alt="a dream catcher"
-                  />
-                  <img
-                    src="https://picsum.photos/id/1082/400/400"
-                    alt="a piano"
-                  />
-                  <img
-                    src="https://picsum.photos/id/158/400/400"
-                    alt="a live concert"
-                  />
-                  <img src="https://picsum.photos/id/234/400/400" alt="Paris" />
-                </div>
-              </div>
-            </div>
-          </div> */}
           <div className="container mt-5 text-center">
             <h2>Our Clients</h2>
 
@@ -378,9 +338,9 @@ const OurProjects = () => {
           <div className="container">
             <div className="row">
               <div
-                className="container mt-5"
+                className="container mt-0"
                 style={{
-                  padding: "40px 0",
+                  padding: "20px 0",
                   color: "white",
                 }}
               >
@@ -411,17 +371,24 @@ const OurProjects = () => {
                     marginTop: "20px",
                   }}
                 >
-                  <li style={{ margin: "0 15px", cursor: "pointer" }}>Home</li>
-
-                  <li style={{ margin: "0 15px", cursor: "pointer" }}>
-                    Property
-                  </li>
-                  <li style={{ margin: "0 15px", cursor: "pointer" }}>
-                    About Us
-                  </li>
-                  <li style={{ margin: "0 15px", cursor: "pointer" }}>
-                    Contact Us
-                  </li>
+                  <a href="/" style={{ color: "white", textDecoration: "none" }}>
+                    <li style={{ margin: "0 15px", cursor: "pointer" }}>
+                      Home
+                    </li>
+                  </a>
+                  <a href="/property"style={{ color: "white", textDecoration: "none" }}>
+                    <li style={{ margin: "0 15px", cursor: "pointer" }}>
+                      Property
+                    </li>
+                  </a>
+                  <a href="/about-us"style={{ color: "white", textDecoration: "none" }}>
+                    <li style={{ margin: "0 15px", cursor: "pointer" }}>
+                      About Us
+                    </li>
+                  </a>
+                  <a href="/contact"style={{ color: "white", textDecoration: "none" }}>
+                    <li style={{ margin: "0 15px" }}>Contact</li>
+                  </a>
                 </ul>
                 <hr style={{ borderColor: "white", margin: "30px 0" }} />
 
@@ -433,8 +400,8 @@ const OurProjects = () => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <p>📞 +91-9876543210</p>
-                  <p>✉️ info@example.com</p>
+                  <p>📞 00971509866796</p>
+                  <p>✉️ smartplan.re@gmail.com</p>
                 </div>
               </div>
             </div>

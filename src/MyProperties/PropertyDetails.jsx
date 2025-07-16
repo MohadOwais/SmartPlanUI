@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../homepage/Navbar";
 import Logoimg from "../assets/logo.png";
 import ComapanyLogo from "../assets/ComapanyLogo.jpg";
+import Apartmenticons from "../assets/Apartmenticons.png";
+import BathroomIcons from "../assets/BathroomIcons.png";
+import SudioIcons from "../assets/SudioIcons.png";
+import GrageIcons from "../assets/GrageIcons.png";
+import locationsicons from "../assets/locationsicons.png";
+import CalenderIcons from "../assets/CalenderIcons.png";
 
 import GoogleMapEmbed from "./Google";
 import { useLocation } from "react-router-dom";
@@ -97,6 +103,8 @@ const PropertyDetails = () => {
       }
     } catch (error) {}
   };
+  // console.log("properties", property);
+  // console.log("allpropertyFacilities", allpropertyFacilities);
 
   return (
     <>
@@ -121,13 +129,10 @@ const PropertyDetails = () => {
                       <div>
                         <h2>{property.ApartmentName}</h2>
                         <div style={{ display: "flex", gap: "3px" }}>
-                          <h5>
-                            {property.selectPlan === 0 ? "Ready" : "OffPlan"}
-                          </h5>
                           <i className="bi bi-geo-alt">{property.area} Dubai</i>
                         </div>
                       </div>
-                      <h2>55000 AED</h2>
+                      <h5>{property.selectPlan === 0 ? "Ready" : "OffPlan"}</h5>
                     </div>
 
                     <div
@@ -209,42 +214,68 @@ const PropertyDetails = () => {
                         <h3>Overview</h3>
                         <div className="row mt-5 p-3  rounded text-center">
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                            <i className="bi bi-house-door-fill  fs-1"></i>
+                            {/* <i className="bi bi-house-door-fill  fs-1"></i> */}
+                            <img
+                              src={Apartmenticons}
+                              alt="Apartmenticons"
+                              style={{ height: "80px" }}
+                            />
 
                             <span className="fw-bold">
                               {property.propertyType}
                             </span>
                           </div>
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                            <i
+                            {/* <i
                               className="bi bi-bucket-fill fs-1"
                               style={{ color: "#c0b8b8" }}
-                            ></i>
+                            ></i> */}
+                            <img
+                              src={BathroomIcons}
+                              alt="BathroomIcons"
+                              style={{ height: "80px" }}
+                            />
                             <span className="fw-bold">
                               {property.BathRoomSize}
                             </span>
                           </div>
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                            <i
+                            {/* <i
                               className="bi bi-door-closed-fill  fs-1"
                               style={{ color: "black" }}
-                            ></i>
+                            ></i> */}
+                            <img
+                              src={SudioIcons}
+                              alt="SudioIcons"
+                              style={{ height: "80px" }}
+                            />
                             <span className="fw-bold">
                               {property.BedRoomSize}
                             </span>
                           </div>
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                            <i
+                            {/* <i
                               className="bi bi-car-front-fill s fs-1"
                               style={{ color: "#c0b8b8" }}
-                            ></i>
+                            ></i> */}
+                            <img
+                              src={GrageIcons}
+                              alt="GrageIcons"
+                              style={{ height: "80px" }}
+                            />
                             <span className="fw-bold">{property.Grage}</span>
                           </div>
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                            <i
+                            {/* <i
                               className="bi bi-calendar-check-fill fs-1"
                               style={{ color: "black" }}
-                            ></i>
+                            ></i> */}
+                            <img
+                              src={CalenderIcons}
+                              alt="CalenderIcons"
+                              style={{ height: "80px" }}
+                            />
+
                             <span className="fw-bold">
                               {property.YearOfCompletion}
                             </span>
@@ -287,10 +318,10 @@ const PropertyDetails = () => {
                                 style={{
                                   display: "flex",
                                   flexWrap: "wrap",
-                                  gap: "20px",
+                                  gap: "10px",
                                 }}
                               >
-                                <div className="card property-card">
+                                {/* <div className="card property-card">
                                   <div className="card-body">
                                     <i className="bi bi-geo-alt"></i>
                                     <span>{property.area}</span>
@@ -309,42 +340,8 @@ const PropertyDetails = () => {
                                     <i className="bi bi-house-door"></i>
                                     <span>2BHK</span>
                                   </div>
-                                </div>
-                                {/* {property.Facilities &&
-                                property.Facilities.split(",").length > 1 ? (
-                                  property.Facilities.split(",").map(
-                                    (facility) => (
-                                      <div
-                                        className="card property-card"
-                                        key={facility}
-                                      >
-                                        <div className="card-body">
-                                          <i
-                                            className={`bi ${
-                                              facility === "Parking"
-                                                ? "bi-p-circle"
-                                                : facility === "Swimming Pool"
-                                                ? "bi-water"
-                                                : facility === "Security"
-                                                ? "bi-shield-lock"
-                                                : facility === "Clubhouse"
-                                                ? "bi-house-door"
-                                                : facility === "Playground"
-                                                ? "bi-tree"
-                                                : ""
-                                            }`}
-                                            style={{
-                                              fontSize: "40px",
-                                            }}
-                                          ></i>
-                                          <h6>{facility}</h6>
-                                        </div>
-                                      </div>
-                                    )
-                                  )
-                                ) : (
-                                  <></> // Renders nothing if facilities are empty or <= 1
-                                )} */}
+                                </div> */}
+
                                 {allpropertyFacilities && (
                                   <div className="row">
                                     {[
@@ -485,9 +482,7 @@ const PropertyDetails = () => {
                               </div>
                               {pricePlan &&
                               pricePlan.length > 0 &&
-                              (pricePlan[0].onBookingPricePlan ||
-                                pricePlan[0].DuringConstructionPricePlan ||
-                                pricePlan[0].UponHandoverPricePlan) ? (
+                              pricePlan[0].UponHandoverPostHandover ? (
                                 <div className="mt-5">
                                   <h4>Handover Payment Plan</h4>
                                   <table className="table table-striped">
@@ -501,8 +496,8 @@ const PropertyDetails = () => {
                                     <tbody>
                                       <tr>
                                         <td>
-                                          {pricePlan[0].onBookingPricePlan ||
-                                            "N/A"}
+                                          {pricePlan[0]
+                                            .UponHandoverPostHandover || "-"}
                                         </td>
                                         <td>
                                           {pricePlan[0]
@@ -510,8 +505,8 @@ const PropertyDetails = () => {
                                             "N/A"}
                                         </td>
                                         <td>
-                                          {pricePlan[0].UponHandoverPricePlan ||
-                                            "N/A"}
+                                          {pricePlan[0]
+                                            .UponHandoverPostHandover || "-"}
                                         </td>
                                       </tr>
                                     </tbody>
@@ -682,13 +677,12 @@ const PropertyDetails = () => {
                       <div>
                         <h2>{property.ApartmentName}</h2>
                         <div style={{ display: "flex", gap: "3px" }}>
-                          <h5>
-                            {property.selectPlan === 0 ? "Ready" : "OffPlan"}
-                          </h5>
                           <i className="bi bi-geo-alt">{property.area} Dubai</i>
                         </div>
                       </div>
-                      <h2>55000 AED</h2>
+                      <h5>
+                        {property.selectPlan === 0 ? "Ready Plan" : "OffPlan"}
+                      </h5>
                     </div>
 
                     <div
@@ -859,7 +853,7 @@ const PropertyDetails = () => {
                           <div className="col-lg-6 col-md-12">
                             <div>
                               <h2>Property Details</h2>
-                              <div className="col-lg-8col-md-12 mt-4">
+                              <div className="col-lg-12 col-md-12 mt-4">
                                 <div
                                   style={{
                                     display: "flex",
@@ -867,23 +861,35 @@ const PropertyDetails = () => {
                                     gap: "20px",
                                   }}
                                 >
-                                  <div className="card property-card">
+                                  <div
+                                    className="card property-card"
+                                    style={{ width: "200px" }}
+                                  >
                                     <div className="card-body">
-                                      <i className="bi bi-geo-alt"></i>
-                                      <span>{property.area}</span>
+                                      <img
+                                        src={locationsicons}
+                                        style={{ height: "50px" }}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        {property.area}
+                                      </span>
                                     </div>
                                   </div>
 
-                                  <div className="card property-card">
+                                  <div
+                                    className="card property-card"
+                                    style={{ width: "200px" }}
+                                  >
                                     <div className="card-body">
-                                      <i className="bi bi-arrows-fullscreen"></i>
-                                      <span>1440 sqft</span>
-                                    </div>
-                                  </div>
-
-                                  <div className="card property-card">
-                                    <div className="card-body">
-                                      <i className="bi bi-house-door"></i>
+                                      <img
+                                        src={SudioIcons}
+                                        alt="SudioIcons"
+                                        style={{ height: "60px" }}
+                                      />
                                       <span>2BHK</span>
                                     </div>
                                   </div>
@@ -948,7 +954,7 @@ const PropertyDetails = () => {
                                   pricePlan.length > 0 &&
                                   pricePlan[0].selectPlan === 0 ? (
                                     <tr>
-                                      <td>{pricePlan[0].bank}</td>
+                                      <td>{pricePlan[0].bank || "-"}</td>
                                       <td>{pricePlan[0].cash || "N/A"}</td>
                                     </tr>
                                   ) : (

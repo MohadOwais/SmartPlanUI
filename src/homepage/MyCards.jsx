@@ -6,7 +6,9 @@ import slidersCard1 from "../assets/slidersCard1.jpg";
 import slidersCard2 from "../assets/slidersCard2.jpg";
 import openLand from "../assets/openLand.jpg";
 import office from "../assets/office.jpg";
-
+import apartment1 from "../assets/apartment1.jpg";
+import apartment2 from "../assets/apartment2.jpg";
+import apartment3 from "../assets/apartment3.jpg";
 import { motion } from "framer-motion";
 
 const MyCards = () => {
@@ -40,7 +42,79 @@ const MyCards = () => {
   return (
     <>
       <div className="container my-5">
-        <div className="row">
+        <div className="row mt-5">
+          <div className="col-lg-6 col-md-12 mt-5">
+            <h2>Explore Our Property</h2>
+            <p>
+              Explore the most exclusive real estate listings in Abu Dhabi,
+              Dubai, and Ras al Khaimah.
+            </p>
+            <div>
+              <p>
+                At Smart Plan Real Estate, we pride ourselves on delivering
+                excellence in every project we undertake. With a proven track
+                record of successfully completing numerous projects, we are
+                well-equipped to handle ventures of any scale, from residential
+                developments to large commercial projects. Our meticulous
+                planning, seamless execution, and client-first approach set us
+                apart in the real estate industry. Every project executed by
+                Smart Plan Real Estate reflects our commitment to quality,
+                innovation, and professionalism. Whether you're looking to
+                invest, develop, or collaborate, Smart Plan Real Estate is ready
+                to partner with you to turn your vision into reality. Let's
+                build a future together!
+              </p>
+            </div>
+          </div>
+          <div className="col-lg-6 col-md-12">
+            <div
+              className="card"
+              style={{
+                width: "100%",
+                maxWidth: "600px",
+                marginTop: "20px",
+                borderRadius: "20px",
+              }}
+            >
+              <div className="card-body">
+                <div
+                  id="carouselExampleSlidesOnly"
+                  className="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div className="carousel-inner">
+                    <div className="carousel-item active">
+                      <img
+                        style={{ height: "350px", maxHeight: "400px" }}
+                        src={apartment1}
+                        className="d-block w-100"
+                        alt="Slide 1"
+                      />
+                    </div>
+                    <div className="carousel-item">
+                      <img
+                        style={{ height: "350px", maxHeight: "400px" }}
+                        src={apartment2}
+                        className="d-block w-100"
+                        alt="Slide 2"
+                      />
+                    </div>
+                    <div className="carousel-item">
+                      <img
+                        style={{ height: "350px", maxHeight: "400px" }}
+                        src={apartment3}
+                        className="d-block w-100"
+                        alt="Slide 3"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row " style={{ marginTop: "100px" }}>
           <div className="col-12">
             <h1 ref={headingRef} className="mb-5">
               Smart Plan Real Estate Tailored for You.

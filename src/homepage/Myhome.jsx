@@ -7,7 +7,7 @@ import Logoimg from "../assets/logo.png";
 // import Homeimg from "../assets/home.jpg";
 
 import "../publicCSS/public.css";
-import MyCards from "./myCards";
+import MyCards from "./MyCards";
 import Navbar from "./Navbar";
 import OurProjects from "./OurProjects";
 import ImagesSlider from "../ImagesSliders/ImagesSliders";
@@ -52,61 +52,6 @@ const Myhome = () => {
   return (
     <>
       <ImagesSlider />
-      {/* <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "100vh",
-          overflow: "hidden",
-        }}
-      >
-        <video
-          ref={videoRef}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "blur(0.1px)",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 1,
-          }}
-          src={Homevedio}
-          muted
-        />
-        <div
-          className="container-fluid"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 2,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            color: "white",
-            fontWeight: "bold",
-            textAlign: "center",
-            fontSize: "35px",
-            padding: "20px",
-          }}
-        >
-          <p>{randomQuote}</p>
-          <hr />
-          <a href="/property">
-            <button
-              style={{ width: "300px", height: "80px", fontSize: "20px" }}
-            >
-              Explore
-            </button>
-          </a>
-        </div>
-        <Navbar />
-      </div> */}
       <div
         style={{
           display: "flex",

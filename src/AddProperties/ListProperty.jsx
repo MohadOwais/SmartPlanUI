@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL, LIST_PROPERTY } from "../../services/end_points";
+import {
+  API_BASE_URL,
+  DELETE_HOME,
+  LIST_PROPERTY,
+} from "../../services/end_points";
 import Navbar from "../homepage/Navbar";
-import { _get } from "../../services/services_api";
+import { _delete, _get } from "../../services/services_api";
 import { useNavigate } from "react-router-dom";
 
 const ListProperty = () => {
@@ -34,6 +38,17 @@ const ListProperty = () => {
   const handleEdit = (id, user) => {
     navigate(`/Edit-property/${id}`, { state: { id, user } });
   };
+  const handleDelete = async (id) => {
+    try {
+      const result = await _delete(`${API_BASE_URL}${DELETE_HOME}${id}`);
+      if (result.status === 200) {
+        console.log("Property deleted successfully");
+        fetchData(); // Refresh the data after deletion
+      }
+    } catch (error) {
+      console.log("Delete property with ID:", error);
+    }
+  };
   return (
     <>
       <Navbar />
@@ -57,7 +72,7 @@ const ListProperty = () => {
                     <th scope="col">Company Name</th>
                     <th scope="col">Year Of Completion</th>
                     {/* <th scope="col">UserId</th> */}
-                    <th scope="col">Property Plan</th>
+                    {/* <th scope="col">Property Plan</th> */}
                     <th scope="col">Property Property</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -73,7 +88,7 @@ const ListProperty = () => {
                         <td>{user.YearOfCompletion}</td>
                         {/* <td>{user.UserId}</td> */}
                         <td>{user.selectPlan === 1 ? "Ready" : "OffPlan"}</td>
-                        <td>{user.propertyType}</td>
+                        {/* <td>{user.propertyType}</td> */}
                         <td>
                           <div style={{ display: "flex" }}>
                             <i
@@ -85,6 +100,7 @@ const ListProperty = () => {
                             <i
                               className="bi bi-trash"
                               style={{ marginRight: "5px" }}
+                              onClick={() => handleDelete(user.id)}
                             ></i>
                           </div>
                         </td>

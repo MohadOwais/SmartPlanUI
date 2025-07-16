@@ -56,7 +56,7 @@
 .aboutus-contact-btn {
   display: inline-block;
   padding: 13px 36px;
-  background: #2e8bc0;
+  background: #3c2415;
   color: #fff;
   border-radius: 8px;
   text-decoration: none;
@@ -69,7 +69,8 @@
 }
 
 .aboutus-contact-btn:hover {
-  background: #145da0;
+  background: #decaaf;
+  color: black;
 }
 
 .aboutus-right {

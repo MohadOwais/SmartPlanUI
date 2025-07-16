@@ -85,7 +85,7 @@ const Property = () => {
     try {
       const result = await _get(`${API_BASE_URL}${ALL_IMG}`);
       const images = result?.data?.data || [];
-      console.log("data in img", images);
+
       setimagePath(images);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -104,10 +104,8 @@ const Property = () => {
       (selectedType === "" || property.type === selectedType)
     );
   });
-  console.log(properties); // ✅ This will show the array of properties
 
   const handleButtonClick = (property) => {
-    console.log("property data", properties);
     navigate("/property-details", { state: { property } });
 
     // You can pass the property data to a new route or modal, depending on your application flow.
@@ -119,7 +117,7 @@ const Property = () => {
         <div className="container-fluid mt-5">
           <div className="container">
             <div className="row mt-5">
-              <div className="col-lg-6 col-md-12 mt-5">
+              {/* <div className="col-lg-6 col-md-12 mt-5">
                 <h2>Explore Our Property</h2>
                 <p>
                   Explore the most exclusive real estate listings in Abu Dhabi,
@@ -141,8 +139,8 @@ const Property = () => {
                     your vision into reality. Let's build a future together!
                   </p>
                 </div>
-              </div>
-              <div className="col-lg-6 col-md-12">
+              </div> */}
+              {/* <div className="col-lg-6 col-md-12">
                 <div
                   className="card"
                   style={{
@@ -187,8 +185,8 @@ const Property = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <hr style={{ marginTop: "20px" }} />
+              </div> */}
+              {/* <hr style={{ marginTop: "20px" }} /> */}
               <div className="col-lg-6 col-md-12">
                 <h3>Our Property</h3>
               </div>
@@ -249,7 +247,7 @@ const Property = () => {
                   <option value="Row Houses">Row Houses</option>
                 </select>
               </div>
-              <div className="container">
+              <div className="container" style={{ marginTop: "50px" }}>
                 <div className="container">
                   <div className="row">
                     {filteredProperties
@@ -324,9 +322,11 @@ const Property = () => {
                                 <button
                                   className="btn w-100"
                                   style={{
-                                    backgroundColor: "#3c2415",
+                                    // backgroundColor: "#3c2415",
+                                    backgroundColor: "#4a4a4a",
                                     color: "white",
-                                    border: "2px solid #decaaf",
+                                    // border: "2px solid #decaaf",
+                                    border: "2px solid #4a4a4a",
                                     borderRadius: "12px",
                                   }}
                                   onClick={() => handleButtonClick(property)}

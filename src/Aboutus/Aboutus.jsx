@@ -13,7 +13,7 @@ const Aboutus = () => {
           <div className="aboutus-left">
             <h1 className="aboutus-title">ABOUT US</h1>
             <p className="aboutus-description">
-              <strong>Smart Plan</strong> is a premier real estate company,
+              <strong>Smart Plan real estate company</strong> is a premier ,
               committed to delivering exceptional property solutions for both
               residential and commercial needs. Our experienced team guides
               clients through every step of buying, selling, or renting,
@@ -26,7 +26,7 @@ const Aboutus = () => {
               Plan is your trusted partner in real estate.
             </p>
             <p className="aboutus-owner">
-              <strong>Owner:</strong> Sayeed Salam Al Ketbi
+              <strong>Owner:</strong> Saeed Al Ketbi
             </p>
             <a href="/contact" className="aboutus-contact-btn">
               Contact Us
@@ -44,9 +44,6 @@ const Aboutus = () => {
               className="aboutus-client-img"
             />
           </div>
-        </div>
-        <div className="aboutus-footer">
-          Designed by <span>Smart Plan</span>
         </div>
       </div>
     </>

@@ -13,6 +13,7 @@ import {
   LIST_OF_FEATURES,
 } from "../../services/end_points";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const AddProperty = () => {
   const [manageFields, setManageFields] = useState(false);
 
@@ -38,6 +39,7 @@ const AddProperty = () => {
   });
   const [modal, setModal] = useState(false);
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
   const [normalPlanData, setNormalPlanData] = useState(["", "", ""]);
   const [PriceData, setPriceData] = useState({
     selectPlan: "0",
@@ -51,17 +53,17 @@ const AddProperty = () => {
     duringConstructionHP: "",
     uponHandoverHP: "",
   });
-  const [rows, setRows] = useState([{ unit: "", area: "", price: "" }]);
+  const [rows, setRows] = useState([{ unit: "", areaSQft: "", price: "" }]);
   const userId = localStorage.getItem("userId");
   const [data, setData] = useState([]);
   const [dataFeatures, setDataFeatures] = useState([]);
   const addRow = () => {
-    setRows([...rows, { unit: "", area: "", price: "" }]);
+    setRows([...rows, { unit: "", areaSQft: "", price: "" }]);
   };
   const fetchData = async () => {
     try {
       const result = await _get(`${API_BASE_URL}${LIST_OF_Facilities}`);
-      console.log("result", result);
+
       if (result.status === 200) {
         setData(result.data.data);
       }
@@ -82,13 +84,12 @@ const AddProperty = () => {
   };
 
   const handleChange = (index, event) => {
+    console.log("index", index);
+    console.log("event", event);
     const { name, value } = event.target;
     const updatedRows = [...rows];
     updatedRows[index][name] = value;
     setRows(updatedRows);
-    handleInputChange({
-      target: { name: "Tablecontent", value: JSON.stringify(updatedRows) },
-    });
   };
 
   useEffect(() => {
@@ -133,27 +134,43 @@ const AddProperty = () => {
     }
   };
 
+  const getTableDataAsJson = () => {
+    return rows.map((row) => ({
+      unit: row.unit,
+      area: row.areaSQft,
+      startprice: row.price,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setModal(true);
+    const id = localStorage.getItem("user");
     try {
+      let submitData = {
+        ...formData,
+        UserId: id, // Force-set userId here in formData
+        Tablecontent: getTableDataAsJson(), // Always send mapped table data
+      };
       if (file && file.length > 0) {
         const fileData = new FormData();
         for (let i = 0; i < file.length; i++) {
           fileData.append("image", file[i]);
         }
-        for (const key in formData) {
-          if (Array.isArray(formData[key])) {
-            formData[key].forEach((item) => {
-              fileData.append(`${key}[]`, item);
-            });
+        for (const key in submitData) {
+          if (Array.isArray(submitData[key])) {
+            if (key === "Tablecontent") {
+              // Stringify the whole array and send as a single field
+              fileData.append(key, JSON.stringify(submitData[key]));
+            } else {
+              submitData[key].forEach((item) => {
+                fileData.append(`${key}[]`, item);
+              });
+            }
           } else {
-            fileData.append(key, formData[key]);
+            fileData.append(key, submitData[key]);
           }
         }
-        // for (let pair of fileData.entries()) {
-        //   console.log(pair[0] + ", " + pair[1]);
-        // }
 
         const response = await axios.post(
           `${IMG_API_BASE_URL}/add-home/${userId}`,
@@ -161,6 +178,8 @@ const AddProperty = () => {
           fileData
         );
         if (response.status === 200) {
+          alert("Property added successfully!");
+          navigate("/property");
           setFormData({
             selectPlan: "0",
             propertyType: "",
@@ -172,6 +191,7 @@ const AddProperty = () => {
             Facilities: [],
             Owner: "",
           });
+          navigate("/property");
         }
       }
     } catch (error) {
@@ -185,9 +205,10 @@ const AddProperty = () => {
     try {
       const response = await axios.post(
         `${IMG_API_BASE_URL}/price/price-plan`,
-        // "https://smartplan-be.vercel.app/price/price-plan",
+
         PriceData
       );
+      console.log("response", response);
       if (response.status === 200) {
         setPriceData({
           selectPlan: "0",
@@ -201,6 +222,11 @@ const AddProperty = () => {
           duringConstructionHP: "",
           uponHandoverHP: "",
         });
+        const modalElement = document.getElementById("staticBackdrop");
+        const modalInstance = bootstrap.Modal.getInstance(modalElement); // For Bootstrap v5
+        if (modalInstance) {
+          modalInstance.hide();
+        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -249,7 +275,13 @@ const AddProperty = () => {
                 borderRadius: "20px",
               }}
             >
-              <div className="card-body" style={{ backgroundColor: "#3c2415" }}>
+              <div
+                className="card-body"
+                style={{
+                  backgroundColor: "#3c2415",
+                  // background: "#f6eeeb",
+                }}
+              >
                 <div
                   style={{
                     display: "flex",
@@ -284,11 +316,7 @@ const AddProperty = () => {
 
                 <hr />
 
-                <form
-                  onSubmit={handleSubmit}
-                  style={{ width: "100%" }}
-                  encType="multipart/form-data"
-                >
+                <form style={{ width: "100%" }} encType="multipart/form-data">
                   <div className="container">
                     <div className="row">
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
@@ -388,6 +416,9 @@ const AddProperty = () => {
                                 Madinat Jumeirah
                               </option>
                               <option value="Business Bay">Business Bay</option>
+                              <option value="Dubai Land Residence Complex">
+                                Dubai Land Residence Complex
+                              </option>
                               <option value="Downtown Dubai">
                                 Downtown Dubai
                               </option>
@@ -661,7 +692,7 @@ const AddProperty = () => {
                               }}
                             />
                           </div>
-                          <div className="col-xl-6 col-lg-4 col-md-6 col-sm-12 mt-3">
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
                             <div className="table-responsive">
                               <table className="table table-striped">
                                 <thead className="table-secondary">
@@ -688,9 +719,9 @@ const AddProperty = () => {
                                       <td>
                                         <input
                                           type="text"
-                                          name="area"
+                                          name="areaSQft"
                                           placeholder="Enter Area"
-                                          value={row.area}
+                                          value={row.areaSQft}
                                           onChange={(e) =>
                                             handleChange(index, e)
                                           }
@@ -712,6 +743,7 @@ const AddProperty = () => {
                                 </tbody>
                               </table>
                               <button
+                                type="button"
                                 className="btn btn-primary mt-2"
                                 onClick={addRow}
                               >
@@ -920,15 +952,17 @@ const AddProperty = () => {
                           style={{
                             color: "black",
                             width: "100%",
+                            // maxWidth: "300px",
                             backgroundColor: "#decaaf",
                             marginTop: "50px",
                             border: "2px solid #decaaf",
                           }}
+                          onClick={() => navigate("/property")}
                         >
                           Back
                         </button>
                         <button
-                          type="submit"
+                          type="button"
                           style={{
                             color: "black",
                             width: "100%",
@@ -937,6 +971,7 @@ const AddProperty = () => {
                             marginTop: "50px",
                             border: "2px solid #decaaf",
                           }}
+                          onClick={handleSubmit}
                         >
                           Submit
                         </button>
@@ -1102,6 +1137,7 @@ const AddProperty = () => {
                   <button
                     className="btn btn-primary"
                     type="submit"
+                    data-bs-dismiss="modal"
                     style={{
                       color: "black",
                       backgroundColor: "#decaaf",
