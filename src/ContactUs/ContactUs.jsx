@@ -75,9 +75,6 @@ const ContactUs = () => {
                             gap: "20px",
                           }}
                         >
-                          {/* <div style={{ color: "wheat" }}>
-                            <i className="bi bi-instagram fs-2"></i>
-                          </div> */}
                           <div
                             style={{
                               color: "wheat",
@@ -209,6 +206,19 @@ const ContactUs = () => {
                                 height: "100px",
                               }}
                             ></textarea>
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              style={{
+                                width: "90%",
+                                border: "none",
+                                backgroundColor: "#b9b5b5",
+                                color: "black",
+                                borderRadius: "20px",
+                              }}
+                            >
+                              Submit
+                            </button>
                           </form>
                         </div>
                       </div>

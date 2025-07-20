@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Navbar from "../homepage/Navbar";
 import Addusers from "../assets/Addusers.jpeg";
 import Logoimg from "../assets/ComapanyLogo.jpg";
-import { _delete, _get, _post } from "../../services/services_api";
+import { _delete, _get, _post, _put } from "../../services/services_api";
 import {
   ADD_HOME,
   API_BASE_URL,
@@ -15,6 +15,8 @@ import {
   DELETE_PROPERTY_IMG,
   Filter_Featutes_FACILITIES,
   DELETE_FEATURES_FACILITIES,
+  GET_PRICE,
+  UPDATE_PRICE,
 } from "../../services/end_points";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -23,7 +25,7 @@ const Editproperty = () => {
   const { id, user } = location.state;
   const userId = user.id;
   const editing = true;
-  // console.log("user edit data", user);
+
   const [manageFields, setManageFields] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -51,6 +53,7 @@ const Editproperty = () => {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const [normalPlanData, setNormalPlanData] = useState(["", "", ""]);
+
   const [PriceData, setPriceData] = useState({
     selectPlan: "0",
     nameOfappt: "",
@@ -103,6 +106,8 @@ const Editproperty = () => {
   };
 
   useEffect(() => {
+    FetchPriceEdit();
+
     setPriceData((prev) => ({
       ...prev,
       nameOfappt: formData.ApartmentName || "",
@@ -134,6 +139,62 @@ const Editproperty = () => {
       }
     }
   }, [editing, user]);
+  const FetchPriceEdit = async () => {
+    try {
+      const result = await _get(
+        `${API_BASE_URL}${GET_PRICE}${user.ApartmentName}`
+      );
+      if (
+        result.status === 200 &&
+        result.data.data &&
+        result.data.data.length > 0
+      ) {
+        const plan = result.data.data[0];
+        setPriceData({
+          selectPlan: plan.selectPlan,
+          nameOfappt: plan.home,
+          bank: plan.bank || "",
+          cash: plan.cash || "",
+          onBookingPP: plan.onBookingPricePlan || "",
+          duringConstructionPP: plan.DuringConstructionPricePlan || "",
+          uponHandoverPP: plan.UponHandoverPricePlan || "",
+          onBookingHP: plan.onBookingPostHandover || "",
+          duringConstructionHP: plan.DuringConstructionPostHandover || "",
+          uponHandoverHP: plan.UponHandoverPostHandover || "",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching price plan:", error);
+    }
+  };
+
+  // const HandlePayment=async()
+  const HandlePayment = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await _put(
+        `${API_BASE_URL}${UPDATE_PRICE}${user.ApartmentName}`,
+        PriceData
+      );
+      if (result.status === 200) {
+        setPriceData({
+          selectPlan: "0",
+          nameOfappt: "",
+          bank: "",
+          cash: "",
+          onBookingPP: "",
+          duringConstructionPP: "",
+          uponHandoverPP: "",
+          onBookingHP: "",
+          duringConstructionHP: "",
+          uponHandoverHP: "",
+        });
+        alert("Price Plan Updated successfully!");
+      }
+    } catch (error) {
+      console.error("Error updating price:", error);
+    }
+  };
 
   const fectImg = async () => {
     try {
@@ -400,7 +461,7 @@ const Editproperty = () => {
 
     // Optionally, you can upload immediately here, or wait for submit
   };
-  console.log("Inputs", formData);
+
   useEffect(() => {
     // Only run if both master lists and active names are loaded
     if (data.length && activeFacilities.length) {
@@ -626,6 +687,37 @@ const Editproperty = () => {
                               }}
                             />
                           </div>
+
+                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                            <select
+                              name="Owner"
+                              className="form-select"
+                              value={formData.Owner} // Bind value to formData.Owner
+                              onChange={handleInputChange} // Call handleInputChange on change
+                              style={{
+                                marginBottom: "20px",
+                                marginTop: "15px",
+                              }}
+                            >
+                              <option value="">Select Owner</option>
+                              <option value="Free Hold">Free Hold</option>
+                              <option value="Leasing Hold">Leasing Hold</option>
+                            </select>
+                          </div>
+                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                            <input
+                              type="text"
+                              name="NearBy"
+                              value={formData.NearBy || ""}
+                              onChange={handleInputChange}
+                              className="form-control"
+                              placeholder="Near By"
+                              style={{
+                                marginBottom: "20px",
+                                marginTop: "15px",
+                              }}
+                            />
+                          </div>
                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             {file && file.length > 0 && (
                               <div
@@ -715,36 +807,6 @@ const Editproperty = () => {
                                 </label>
                               </div>
                             )}
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                            <select
-                              name="Owner"
-                              className="form-select"
-                              value={formData.Owner} // Bind value to formData.Owner
-                              onChange={handleInputChange} // Call handleInputChange on change
-                              style={{
-                                marginBottom: "20px",
-                                marginTop: "15px",
-                              }}
-                            >
-                              <option value="">Select Owner</option>
-                              <option value="Free Hold">Free Hold</option>
-                              <option value="Leasing Hold">Leasing Hold</option>
-                            </select>
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                            <input
-                              type="text"
-                              name="NearBy"
-                              value={formData.NearBy || ""}
-                              onChange={handleInputChange}
-                              className="form-control"
-                              placeholder="Near By"
-                              style={{
-                                marginBottom: "20px",
-                                marginTop: "15px",
-                              }}
-                            />
                           </div>
                           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <textarea
@@ -1305,7 +1367,7 @@ const Editproperty = () => {
                   Price Plan
                 </h5>
               </div>
-              <form onSubmit={Submiting}>
+              <form onSubmit={HandlePayment}>
                 <div
                   className="modal-body"
                   style={{ display: "flex", gap: "30px" }}

@@ -87,7 +87,7 @@ const ListProperty = () => {
                         {/* <td>{user.BathRoomSize}</td> */}
                         <td>{user.YearOfCompletion}</td>
                         {/* <td>{user.UserId}</td> */}
-                        <td>{user.selectPlan === 1 ? "Ready" : "OffPlan"}</td>
+                        <td>{user.selectPlan === 1 ? "OffPlan" : "Ready"}</td>
                         {/* <td>{user.propertyType}</td> */}
                         <td>
                           <div style={{ display: "flex" }}>

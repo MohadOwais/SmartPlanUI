@@ -177,6 +177,7 @@ const AddProperty = () => {
           // `https://smartplan-be.vercel.app/add-home/${userId}`,
           fileData
         );
+        // console.log("response", response);
         if (response.status === 200) {
           alert("Property added successfully!");
           navigate("/property");
@@ -222,11 +223,6 @@ const AddProperty = () => {
           duringConstructionHP: "",
           uponHandoverHP: "",
         });
-        const modalElement = document.getElementById("staticBackdrop");
-        const modalInstance = bootstrap.Modal.getInstance(modalElement); // For Bootstrap v5
-        if (modalInstance) {
-          modalInstance.hide();
-        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);

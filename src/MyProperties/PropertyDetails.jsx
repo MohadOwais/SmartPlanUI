@@ -8,6 +8,12 @@ import SudioIcons from "../assets/SudioIcons.png";
 import GrageIcons from "../assets/GrageIcons.png";
 import locationsicons from "../assets/locationsicons.png";
 import CalenderIcons from "../assets/CalenderIcons.png";
+import SecurityIcons from "../assets/Security.png";
+import ClubhouseIcons from "../assets/Clubhouse.png";
+import ParkingIcons from "../assets/Parking.png";
+import PlaygroundIcons from "../assets/Playground.png";
+import GYMICONS from "../assets/gymIcons.jpg";
+import SwimmingPool from "../assets/SwimmingPool.jpg";
 
 import GoogleMapEmbed from "./Google";
 import { useLocation } from "react-router-dom";
@@ -49,7 +55,6 @@ const PropertyDetails = () => {
       const result = await _get(
         `${API_BASE_URL}${GET_PRICE}${property.ApartmentName}`
       );
-
       if (result.status === 200) {
         setPricePlan(result.data.data);
       }
@@ -103,9 +108,33 @@ const PropertyDetails = () => {
       }
     } catch (error) {}
   };
-  // console.log("properties", property);
-  // console.log("allpropertyFacilities", allpropertyFacilities);
-
+  const FacilityImg = [
+    {
+      name: "GYM",
+      image: GYMICONS,
+    },
+    {
+      name: "Swimming Pool",
+      image: SwimmingPool,
+    },
+    {
+      name: "Security",
+      image: SecurityIcons,
+    },
+    {
+      name: "Clubhouse",
+      image: ClubhouseIcons,
+    },
+    {
+      name: "Playground",
+      image: PlaygroundIcons,
+    },
+    {
+      name: "Parking",
+      image: ParkingIcons,
+    },
+  ];
+  console.log(" pricePlan[0].selectPlan === 0 ", formdata.selectPlan);
   return (
     <>
       <div>
@@ -146,68 +175,87 @@ const PropertyDetails = () => {
                     >
                       <div className="card-body">
                         <div className="row">
-                          <div
-                            id="propertyImageCarousel"
-                            className="carousel slide"
-                            data-bs-ride="carousel"
-                          >
-                            <div className="carousel-inner">
-                              {carouselImages.map((image, index) => (
-                                <div
-                                  key={index}
-                                  className={`carousel-item ${
-                                    index === 0 ? "active" : ""
-                                  }`}
-                                >
-                                  <img
-                                    style={{
-                                      width: "100%",
-                                      height: "600px",
-                                      objectFit: "cover",
-                                      borderRadius: "10px",
-                                    }}
-                                    src={`${baseUrl}${image.images}`}
-                                    alt={`Property Image ${index + 1}`}
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                            <button
-                              className="carousel-control-prev"
-                              type="button"
-                              data-bs-target="#propertyImageCarousel"
-                              data-bs-slide="prev"
+                          <div className="col-12">
+                            <div
+                              id="propertyImageCarouselMain"
+                              className="carousel slide"
+                              data-bs-ride="carousel"
+                              data-bs-interval="3000" // 3 seconds per slide
                             >
-                              <span
-                                className="carousel-control-prev-icon"
-                                aria-hidden="true"
-                              ></span>
-                              <span className="visually-hidden">Previous</span>
-                            </button>
-                            <button
-                              className="carousel-control-next"
-                              type="button"
-                              data-bs-target="#propertyImageCarousel"
-                              data-bs-slide="next"
-                            >
-                              <span
-                                className="carousel-control-next-icon"
-                                aria-hidden="true"
-                              ></span>
-                              <span className="visually-hidden">Next</span>
-                            </button>
-                            <div className="carousel-indicators">
-                              {carouselImages.map((_, index) => (
-                                <button
-                                  key={index}
-                                  type="button"
-                                  data-bs-target="#propertyImageCarousel"
-                                  data-bs-slide-to={index}
-                                  className={index === 0 ? "active" : ""}
-                                  aria-current={index === 0 ? "true" : "false"}
-                                  aria-label={`Slide ${index + 1}`}
-                                ></button>
-                              ))}
+                              <div className="carousel-inner">
+                                {carouselImages.length > 0 ? (
+                                  carouselImages.map((image, index) => (
+                                    <div
+                                      key={index}
+                                      className={`carousel-item ${
+                                        index === 0 ? "active" : ""
+                                      }`}
+                                    >
+                                      <img
+                                        style={{
+                                          width: "100%",
+                                          height: "500px",
+                                          objectFit: "cover",
+                                          borderRadius: "10px",
+                                        }}
+                                        src={`${baseUrl}${image.images}`}
+                                        alt={`Property Image ${index + 1}`}
+                                      />
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div className="carousel-item active">
+                                    <p>No Image Available</p>
+                                  </div>
+                                )}
+                              </div>
+                              {carouselImages.length > 1 && (
+                                <>
+                                  <button
+                                    className="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#propertyImageCarouselMain"
+                                    data-bs-slide="prev"
+                                  >
+                                    <span
+                                      className="carousel-control-prev-icon"
+                                      aria-hidden="true"
+                                    ></span>
+                                    <span className="visually-hidden">
+                                      Previous
+                                    </span>
+                                  </button>
+                                  <button
+                                    className="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#propertyImageCarouselMain"
+                                    data-bs-slide="next"
+                                  >
+                                    <span
+                                      className="carousel-control-next-icon"
+                                      aria-hidden="true"
+                                    ></span>
+                                    <span className="visually-hidden">
+                                      Next
+                                    </span>
+                                  </button>
+                                </>
+                              )}
+                              <div className="carousel-indicators">
+                                {carouselImages.map((_, index) => (
+                                  <button
+                                    key={index}
+                                    type="button"
+                                    data-bs-target="#propertyImageCarouselMain"
+                                    data-bs-slide-to={index}
+                                    className={index === 0 ? "active" : ""}
+                                    aria-current={
+                                      index === 0 ? "true" : "false"
+                                    }
+                                    aria-label={`Slide ${index + 1}`}
+                                  ></button>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -226,10 +274,7 @@ const PropertyDetails = () => {
                             </span>
                           </div>
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                            {/* <i
-                              className="bi bi-bucket-fill fs-1"
-                              style={{ color: "#c0b8b8" }}
-                            ></i> */}
+                       
                             <img
                               src={BathroomIcons}
                               alt="BathroomIcons"
@@ -266,10 +311,6 @@ const PropertyDetails = () => {
                             <span className="fw-bold">{property.Grage}</span>
                           </div>
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                            {/* <i
-                              className="bi bi-calendar-check-fill fs-1"
-                              style={{ color: "black" }}
-                            ></i> */}
                             <img
                               src={CalenderIcons}
                               alt="CalenderIcons"
@@ -318,68 +359,86 @@ const PropertyDetails = () => {
                                 style={{
                                   display: "flex",
                                   flexWrap: "wrap",
-                                  gap: "10px",
+                                  gap: "20px",
                                 }}
                               >
-                                {/* <div className="card property-card">
-                                  <div className="card-body">
-                                    <i className="bi bi-geo-alt"></i>
-                                    <span>{property.area}</span>
-                                  </div>
-                                </div>
-
-                                <div className="card property-card">
-                                  <div className="card-body">
-                                    <i className="bi bi-arrows-fullscreen"></i>
-                                    <span>1440 sqft</span>
-                                  </div>
-                                </div>
-
-                                <div className="card property-card">
-                                  <div className="card-body">
-                                    <i className="bi bi-house-door"></i>
-                                    <span>2BHK</span>
-                                  </div>
-                                </div> */}
-
                                 {allpropertyFacilities && (
-                                  <div className="row">
-                                    {[
-                                      ...new Set(
-                                        allpropertyFacilities.map(
-                                          (item) => item.FacilityName
-                                        )
-                                      ),
-                                    ].map((facility) => (
-                                      <div
-                                        className="col-md-3 mb-3"
-                                        key={facility}
-                                      >
-                                        <div className="card property-card text-center">
-                                          <div className="card-body">
-                                            <i
-                                              className={`bi ${
-                                                facility === "Parking"
-                                                  ? "bi-p-circle"
-                                                  : facility === "Swimming Pool"
-                                                  ? "bi-water"
-                                                  : facility === "Security"
-                                                  ? "bi-shield-lock"
-                                                  : facility === "Clubhouse"
-                                                  ? "bi-house-door"
-                                                  : facility === "Playground"
-                                                  ? "bi-tree"
-                                                  : facility === "Gym"
-                                                  ? "bi-barbell"
-                                                  : "bi-building" // default icon
-                                              }`}
-                                              style={{ fontSize: "40px" }}
-                                            ></i>
-                                            <h6 className="mt-2">{facility}</h6>
+                                  <div className="col-lg-12 col-md-12 mt-4">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexWrap: "wrap",
+                                        gap: "20px",
+                                        width: "100%",
+                                        justifyContent: "flex-start", // or "center"
+                                      }}
+                                    >
+                                      {[
+                                        ...new Set(
+                                          allpropertyFacilities.map(
+                                            (item) => item.FacilityName
+                                          )
+                                        ),
+                                      ].map((facility) => (
+                                        <div
+                                          key={facility}
+                                          style={{
+                                            flex: "1 1 180px",
+                                            minWidth: "140px",
+                                            maxWidth: "120px",
+                                          }}
+                                        >
+                                          <div
+                                            className="card property-card text-center"
+                                            style={{ height: "80%" }}
+                                          >
+                                            <div className="card-body d-flex flex-column align-items-center justify-content-center">
+                                              {(() => {
+                                                // Find the image for the current facility
+                                                const facilityObj =
+                                                  FacilityImg.find(
+                                                    (f) =>
+                                                      f.name.toLowerCase() ===
+                                                      facility.toLowerCase()
+                                                  );
+                                                if (facilityObj) {
+                                                  return (
+                                                    <img
+                                                      src={facilityObj.image}
+                                                      alt={facilityObj.name}
+                                                      style={{
+                                                        height: "40px",
+                                                        width: "40px",
+                                                        objectFit: "contain",
+                                                      }}
+                                                    />
+                                                  );
+                                                } else {
+                                                  // fallback if not found
+                                                  return (
+                                                    <span
+                                                      style={{
+                                                        display: "inline-block",
+                                                        width: "40px",
+                                                        height: "40px",
+                                                        background: "#eee",
+                                                        borderRadius: "50%",
+                                                        lineHeight: "40px",
+                                                      }}
+                                                    >
+                                                      ?
+                                                    </span>
+                                                  );
+                                                }
+                                              })()}
+                                              <h6 className="mt-2">
+                                                {facility}
+                                              </h6>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    ))}
+                                      ))}
+                                    </div>
                                   </div>
                                 )}
                               </div>
@@ -697,8 +756,82 @@ const PropertyDetails = () => {
                     >
                       <div className="card-body">
                         <div className="row">
-                          <div className="col-lg-6 col-md-12">
-                            {carouselImages?.[0]?.images ? (
+                          <div className="col-lg-12 col-md-12">
+                            <div
+                              className="modal-content"
+                              // style={{ height: "100%", maxHeight: "1000px" }}
+                            >
+                              <div
+                                className="modal-body"
+                                style={
+                                  {
+                                    // height: "auto",
+                                    // overflowY: "auto",
+                                  }
+                                }
+                              >
+                                <div
+                                  id="carouselExampleControls"
+                                  className="carousel slide"
+                                  data-bs-ride="carousel"
+                                  data-bs-interval="8000"
+                                >
+                                  <div className="carousel-inner">
+                                    {carouselImages.map((image, index) => {
+                                      const isActive = index === 0; // First image should be active
+                                      return (
+                                        <div
+                                          key={index}
+                                          className={`carousel-item ${
+                                            isActive ? "active" : ""
+                                          }`}
+                                        >
+                                          <img
+                                            style={{
+                                              width: "100%",
+                                              height: "auto", // Set height for images
+                                              objectFit: "cover", // Ensure images cover space properly
+                                            }}
+                                            src={`${baseUrl}${image?.images}`} // Use `image.images`
+                                            alt={`Slide ${index + 1}`}
+                                          />
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+
+                                  <button
+                                    className="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#carouselExampleControls"
+                                    data-bs-slide="prev"
+                                  >
+                                    <span
+                                      className="carousel-control-prev-icon"
+                                      aria-hidden="true"
+                                    ></span>
+                                    <span className="visually-hidden">
+                                      Previous
+                                    </span>
+                                  </button>
+                                  <button
+                                    className="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#carouselExampleControls"
+                                    data-bs-slide="next"
+                                  >
+                                    <span
+                                      className="carousel-control-next-icon"
+                                      aria-hidden="true"
+                                    ></span>
+                                    <span className="visually-hidden">
+                                      Next
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            {/* {carouselImages?.[0]?.images ? (
                               <img
                                 style={{
                                   width: "100%",
@@ -709,9 +842,9 @@ const PropertyDetails = () => {
                               />
                             ) : (
                               <p>No Image Available</p>
-                            )}
+                            )} */}
                           </div>
-                          <div className="col-lg-6 col-md-12">
+                          {/* <div className="col-lg-6 col-md-12">
                             {carouselImages?.[1]?.images ? (
                               <img
                                 style={{
@@ -736,7 +869,7 @@ const PropertyDetails = () => {
                             ) : (
                               <p>No Image Available</p>
                             )}
-                          </div>
+                          </div> */}
 
                           {isPopupOpen && (
                             <div
@@ -1131,24 +1264,6 @@ const PropertyDetails = () => {
             </>
           )}
         </div>
-        {/* <div
-          style={{
-            backgroundColor: "#3c2415",
-            height: "100%",
-            marginTop: "50px",
-          }}
-        >
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-24 mt-5">
-                <h4 style={{ textAlign: "center", color: "white" }}>
-                  &copy; {new Date().getFullYear()} All Right Reserved by
-                  Mohammed owais
-                </h4>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </>
   );

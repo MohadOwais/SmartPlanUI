@@ -1,9 +1,10 @@
-export const API_BASE_URL = "http://103.86.177.49:8080/v1/";
+// export const API_BASE_URL = "http://103.86.177.49:3001/v1/";
 // export const API_BASE_URL = "http://localhost:8080/v1/";
-export const IMG_API_BASE_URL = "http://103.86.177.49:8080";
+export const API_BASE_URL = "https://apis.gosmartplan.com/v1/";
+// export const IMG_API_BASE_URL = "http://103.86.177.49:3001";
 // export const IMG_API_BASE_URL = "http://localhost:8080";
+export const IMG_API_BASE_URL = "https://apis.gosmartplan.com";
 // export const API_BASE_URL = "https://smartplan-be.vercel.app/v1/";
-// export const API_BASE_URL = "http://owais.intencode.com/v1/";
 
 //Auth
 export const LOGIN = "auth/login";
@@ -17,6 +18,7 @@ export const EDIT_HOME = "home/property-update/";
 export const GET_HOME = "home/get-property";
 export const GET_HOME_BASEROLES = "home/get-property-onrole/";
 export const GET_PRICE = "price/get-price-plan/";
+export const UPDATE_PRICE = "price/update-price-plan/";
 export const ADD_HOME_LIST = "house/add-house-plan";
 export const LIST_PROPERTY = "/home/get-property-onrole/";
 export const UPDATE_PROPERTY = "/home/property-update/";

@@ -57,24 +57,6 @@ const Listing = () => {
     XLSX.writeFile(wb, "leads_list.xlsx");
   };
 
-  // PDF Document definition
-  // const MyDocument = () => (
-  //   <Document>
-  //     <Page size="A4" style={styles.page}>
-  //       <Text style={styles.header}>Leads List</Text>
-  //       {data.map((user, index) => (
-  //         <View key={index} style={styles.row}>
-  //           <Text>{user.company_name}</Text>
-  //           <Text>{user.project_name}</Text>
-  //           <Text>{user.name}</Text>
-  //           <Text>{user.email}</Text>
-  //           <Text>{user.number}</Text>
-  //           <Text>{user.status}</Text>
-  //         </View>
-  //       ))}
-  //     </Page>
-  //   </Document>
-  // );
   const MyDocument = ({ data }) => (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -197,8 +179,22 @@ const Listing = () => {
                                 <button
                                   className="btn btn-sm"
                                   style={{
-                                    backgroundColor: "#decaaf",
-                                    color: "black",
+                                    fontWeight: "bold",
+                                    padding: "5px 5px",
+                                    fontSize: "12px",
+                                    backgroundColor:
+                                      user.status === "Pending"
+                                        ? "gray"
+                                        : user.status === "Successful"
+                                        ? "#1afe1a"
+                                        : "#decaaf",
+                                    // color: "white",
+                                    color:
+                                      user.status === "Pending"
+                                        ? "white"
+                                        : user.status === "Successful"
+                                        ? "black"
+                                        : "#decaaf",
                                     borderRadius: "15px",
                                   }}
                                 >
@@ -206,6 +202,7 @@ const Listing = () => {
                                 </button>
                               </div>
                             </td>
+
                             <td>
                               <div style={{ display: "flex" }}>
                                 <i
