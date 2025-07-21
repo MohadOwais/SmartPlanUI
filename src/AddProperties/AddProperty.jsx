@@ -171,29 +171,33 @@ const AddProperty = () => {
             fileData.append(key, submitData[key]);
           }
         }
-
+        console.log("Data to be submitted (FormData):");
+        for (let pair of fileData.entries()) {
+          console.log(`${pair[0]}:`, pair[1]);
+        }
         const response = await axios.post(
           `${IMG_API_BASE_URL}/add-home/${userId}`,
           // `https://smartplan-be.vercel.app/add-home/${userId}`,
           fileData
         );
-        // console.log("response", response);
-        if (response.status === 200) {
-          alert("Property added successfully!");
-          navigate("/property");
-          setFormData({
-            selectPlan: "0",
-            propertyType: "",
-            area: "",
-            ImagePath: null,
-            CurrentLocation: "",
-            NearBy: [],
-            Overview: "",
-            Facilities: [],
-            Owner: "",
-          });
-          navigate("/property");
-        }
+        console.log("Response:", response);
+
+        // if (response.status === 200) {
+        //   alert("Property added successfully!");
+        //   navigate("/property");
+        //   setFormData({
+        //     selectPlan: "0",
+        //     propertyType: "",
+        //     area: "",
+        //     ImagePath: null,
+        //     CurrentLocation: "",
+        //     NearBy: [],
+        //     Overview: "",
+        //     Facilities: [],
+        //     Owner: "",
+        //   });
+        //   navigate("/property");
+        // }
       }
     } catch (error) {
       console.error("Error submitting form:", error);

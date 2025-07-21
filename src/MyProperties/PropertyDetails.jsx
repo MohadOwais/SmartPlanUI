@@ -175,87 +175,68 @@ const PropertyDetails = () => {
                     >
                       <div className="card-body">
                         <div className="row">
-                          <div className="col-12">
-                            <div
-                              id="propertyImageCarouselMain"
-                              className="carousel slide"
-                              data-bs-ride="carousel"
-                              data-bs-interval="3000" // 3 seconds per slide
+                          <div
+                            id="propertyImageCarousel"
+                            className="carousel slide"
+                            data-bs-ride="carousel"
+                          >
+                            <div className="carousel-inner">
+                              {carouselImages.map((image, index) => (
+                                <div
+                                  key={index}
+                                  className={`carousel-item ${
+                                    index === 0 ? "active" : ""
+                                  }`}
+                                >
+                                  <img
+                                    style={{
+                                      width: "100%",
+                                      height: "600px",
+                                      objectFit: "cover",
+                                      borderRadius: "10px",
+                                    }}
+                                    src={`${baseUrl}${image.images}`}
+                                    alt={`Property Image ${index + 1}`}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                            <button
+                              className="carousel-control-prev"
+                              type="button"
+                              data-bs-target="#propertyImageCarousel"
+                              data-bs-slide="prev"
                             >
-                              <div className="carousel-inner">
-                                {carouselImages.length > 0 ? (
-                                  carouselImages.map((image, index) => (
-                                    <div
-                                      key={index}
-                                      className={`carousel-item ${
-                                        index === 0 ? "active" : ""
-                                      }`}
-                                    >
-                                      <img
-                                        style={{
-                                          width: "100%",
-                                          height: "500px",
-                                          objectFit: "cover",
-                                          borderRadius: "10px",
-                                        }}
-                                        src={`${baseUrl}${image.images}`}
-                                        alt={`Property Image ${index + 1}`}
-                                      />
-                                    </div>
-                                  ))
-                                ) : (
-                                  <div className="carousel-item active">
-                                    <p>No Image Available</p>
-                                  </div>
-                                )}
-                              </div>
-                              {carouselImages.length > 1 && (
-                                <>
-                                  <button
-                                    className="carousel-control-prev"
-                                    type="button"
-                                    data-bs-target="#propertyImageCarouselMain"
-                                    data-bs-slide="prev"
-                                  >
-                                    <span
-                                      className="carousel-control-prev-icon"
-                                      aria-hidden="true"
-                                    ></span>
-                                    <span className="visually-hidden">
-                                      Previous
-                                    </span>
-                                  </button>
-                                  <button
-                                    className="carousel-control-next"
-                                    type="button"
-                                    data-bs-target="#propertyImageCarouselMain"
-                                    data-bs-slide="next"
-                                  >
-                                    <span
-                                      className="carousel-control-next-icon"
-                                      aria-hidden="true"
-                                    ></span>
-                                    <span className="visually-hidden">
-                                      Next
-                                    </span>
-                                  </button>
-                                </>
-                              )}
-                              <div className="carousel-indicators">
-                                {carouselImages.map((_, index) => (
-                                  <button
-                                    key={index}
-                                    type="button"
-                                    data-bs-target="#propertyImageCarouselMain"
-                                    data-bs-slide-to={index}
-                                    className={index === 0 ? "active" : ""}
-                                    aria-current={
-                                      index === 0 ? "true" : "false"
-                                    }
-                                    aria-label={`Slide ${index + 1}`}
-                                  ></button>
-                                ))}
-                              </div>
+                              <span
+                                className="carousel-control-prev-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Previous</span>
+                            </button>
+                            <button
+                              className="carousel-control-next"
+                              type="button"
+                              data-bs-target="#propertyImageCarousel"
+                              data-bs-slide="next"
+                            >
+                              <span
+                                className="carousel-control-next-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Next</span>
+                            </button>
+                            <div className="carousel-indicators">
+                              {carouselImages.map((_, index) => (
+                                <button
+                                  key={index}
+                                  type="button"
+                                  data-bs-target="#propertyImageCarousel"
+                                  data-bs-slide-to={index}
+                                  className={index === 0 ? "active" : ""}
+                                  aria-current={index === 0 ? "true" : "false"}
+                                  aria-label={`Slide ${index + 1}`}
+                                ></button>
+                              ))}
                             </div>
                           </div>
                         </div>
@@ -274,7 +255,10 @@ const PropertyDetails = () => {
                             </span>
                           </div>
                           <div className="col-md-2 d-flex flex-column align-items-center">
-                       
+                            {/* <i
+                              className="bi bi-bucket-fill fs-1"
+                              style={{ color: "#c0b8b8" }}
+                            ></i> */}
                             <img
                               src={BathroomIcons}
                               alt="BathroomIcons"
@@ -756,82 +740,8 @@ const PropertyDetails = () => {
                     >
                       <div className="card-body">
                         <div className="row">
-                          <div className="col-lg-12 col-md-12">
-                            <div
-                              className="modal-content"
-                              // style={{ height: "100%", maxHeight: "1000px" }}
-                            >
-                              <div
-                                className="modal-body"
-                                style={
-                                  {
-                                    // height: "auto",
-                                    // overflowY: "auto",
-                                  }
-                                }
-                              >
-                                <div
-                                  id="carouselExampleControls"
-                                  className="carousel slide"
-                                  data-bs-ride="carousel"
-                                  data-bs-interval="8000"
-                                >
-                                  <div className="carousel-inner">
-                                    {carouselImages.map((image, index) => {
-                                      const isActive = index === 0; // First image should be active
-                                      return (
-                                        <div
-                                          key={index}
-                                          className={`carousel-item ${
-                                            isActive ? "active" : ""
-                                          }`}
-                                        >
-                                          <img
-                                            style={{
-                                              width: "100%",
-                                              height: "auto", // Set height for images
-                                              objectFit: "cover", // Ensure images cover space properly
-                                            }}
-                                            src={`${baseUrl}${image?.images}`} // Use `image.images`
-                                            alt={`Slide ${index + 1}`}
-                                          />
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-
-                                  <button
-                                    className="carousel-control-prev"
-                                    type="button"
-                                    data-bs-target="#carouselExampleControls"
-                                    data-bs-slide="prev"
-                                  >
-                                    <span
-                                      className="carousel-control-prev-icon"
-                                      aria-hidden="true"
-                                    ></span>
-                                    <span className="visually-hidden">
-                                      Previous
-                                    </span>
-                                  </button>
-                                  <button
-                                    className="carousel-control-next"
-                                    type="button"
-                                    data-bs-target="#carouselExampleControls"
-                                    data-bs-slide="next"
-                                  >
-                                    <span
-                                      className="carousel-control-next-icon"
-                                      aria-hidden="true"
-                                    ></span>
-                                    <span className="visually-hidden">
-                                      Next
-                                    </span>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                            {/* {carouselImages?.[0]?.images ? (
+                          <div className="col-lg-6 col-md-12">
+                            {carouselImages?.[0]?.images ? (
                               <img
                                 style={{
                                   width: "100%",
@@ -842,9 +752,9 @@ const PropertyDetails = () => {
                               />
                             ) : (
                               <p>No Image Available</p>
-                            )} */}
+                            )}
                           </div>
-                          {/* <div className="col-lg-6 col-md-12">
+                          <div className="col-lg-6 col-md-12">
                             {carouselImages?.[1]?.images ? (
                               <img
                                 style={{
@@ -869,7 +779,7 @@ const PropertyDetails = () => {
                             ) : (
                               <p>No Image Available</p>
                             )}
-                          </div> */}
+                          </div>
 
                           {isPopupOpen && (
                             <div
@@ -1269,328 +1179,3 @@ const PropertyDetails = () => {
   );
 };
 export default PropertyDetails;
-{
-  {
-    /* <div className="col-lg-24 col-md-12">
-                  <div
-                    className="card"
-                    style={{
-                      marginTop: "20px",
-                      borderRadius: "20px",
-                    }}
-                  >
-                    <div className="card-body">
-                      <GoogleMapEmbed data={property.CurrentLocation} />
-                    </div>
-                  </div>
-                </div> */
-  }
-  /* <div className="row">
-                            <div className="col-lg-12 col-md-12">
-                              <div>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    flexWrap: "wrap",
-                                    gap: "20px",
-                                  }}
-                                >
-                                  <div className="card property-card">
-                                    <div className="card-body">
-                                      <i className="bi bi-geo-alt"></i>
-                                      <span>{property.area}</span>
-                                    </div>
-                                  </div>
-
-                                  <div className="card property-card">
-                                    <div className="card-body">
-                                      <i className="bi bi-arrows-fullscreen"></i>
-                                      <span>1440 sqft</span>
-                                    </div>
-                                  </div>
-
-                                  <div className="card property-card">
-                                    <div className="card-body">
-                                      <i className="bi bi-house-door"></i>
-                                      <span>2BHK</span>
-                                    </div>
-                                  </div>
-                                  {property.Facilities.split(",").includes(
-                                    "Parking"
-                                  ) && (
-                                    <>
-                                      <div className="card">
-                                        <div className="card property-card">
-                                          <div className="card-body">
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "10px",
-                                              }}
-                                            >
-                                              <i
-                                                className="bi bi-p-circle"
-                                                style={{ fontSize: "40px" }}
-                                              ></i>
-                                              <h6>Parking</h6>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  )}
-
-                                  {property.Facilities.split(",").includes(
-                                    "Swimming Pool"
-                                  ) && (
-                                    <>
-                                      <div className="card">
-                                        <div className="card property-card">
-                                          <div className="card-body">
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "10px",
-                                              }}
-                                            >
-                                              <i
-                                                className="bi bi-water"
-                                                style={{ fontSize: "40px" }}
-                                              ></i>
-                                              <h6>Swimming Pool</h6>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  )}
-
-                                  {property.Facilities.split(",").includes(
-                                    "Security"
-                                  ) && (
-                                    <div className="card">
-                                      <div className="card property-card">
-                                        <div className="card-body">
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              gap: "10px",
-                                            }}
-                                          >
-                                            <i
-                                              className="bi bi-shield-lock"
-                                              style={{ fontSize: "40px" }}
-                                            ></i>
-                                            <h6>Security</h6>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )}
-
-                                  {property.Facilities.split(",").includes(
-                                    "Clubhouse"
-                                  ) && (
-                                    <div className="card">
-                                      <div className="card property-card">
-                                        <div className="card-body">
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              gap: "10px",
-                                            }}
-                                          >
-                                            <i
-                                              className="bi bi-house-door"
-                                              style={{ fontSize: "40px" }}
-                                            ></i>
-                                            <h6>Clubhouse</h6>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )}
-
-                                  {property.Facilities.split(",").includes(
-                                    "Playground"
-                                  ) && (
-                                    <div className="card">
-                                      <div className="card property-card">
-                                        <div className="card-body">
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              gap: "10px",
-                                            }}
-                                          >
-                                            <i
-                                              className="bi bi-tree"
-                                              style={{ fontSize: "40px" }}
-                                            ></i>
-                                            <h6>Playground</h6>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-lg-12 col-md-12">
-                              <h4>Near By</h4>
-                              <ul>
-                                {property.NearBy.split(",").map(
-                                  (place, index) => (
-                                    <li key={index}>{place.trim()}</li>
-                                  )
-                                )}
-                              </ul>
-                            </div>
-                          </div> */
-}
-
-// <div className="col-lg-6 col-md-12">
-// <div
-//   style={{
-//     width: "100%",
-//   }}
-// >
-//   <div className="col-lg-12 col-md-12">
-//     <div
-//       style={{
-//         width: "100%",
-//         marginTop: "20px",
-//         borderRadius: "20px",
-//         padding: "20px",
-//       }}
-//     >
-//       <div>
-//         <div
-//           style={{
-//             width: "450px",
-//             maxHeight: "650px",
-//             backgroundColor: "#3c2415",
-//             padding: "20px",
-//             borderRadius: "10px",
-//             flexDirection: "column",
-//             color: "white",
-//           }}
-//         >
-//           <div style={{ textAlign: "center" }}>
-//             <h3>Price</h3>
-//             <h4>500 AED</h4>
-//           </div>
-//           <hr />
-
-//           <input
-//             type="text"
-//             className="form-control"
-//             placeholder="Full Name"
-//             style={{ marginBottom: "15px" }}
-//             name="name"
-//             value={formdata.name}
-//             onChange={(e) =>
-//               setFormData({
-//                 ...formdata,
-//                 name: e.target.value,
-//               })
-//             }
-//           />
-
-//           <input
-//             type="email"
-//             className="form-control"
-//             placeholder="Email"
-//             name="email"
-//             value={formdata.email}
-//             onChange={(e) =>
-//               setFormData({
-//                 ...formdata,
-//                 email: e.target.value,
-//               })
-//             }
-//             style={{ marginBottom: "15px" }}
-//           />
-//           <input
-//             type="tel"
-//             className="form-control"
-//             placeholder="Phone number"
-//             name="number"
-//             value={formdata.number}
-//             onChange={(e) =>
-//               setFormData({
-//                 ...formdata,
-//                 number: e.target.value,
-//               })
-//             }
-//             style={{ marginBottom: "15px" }}
-//           />
-
-//           <div style={{ textAlign: "center" }}>
-//             <button
-//               style={{
-//                 color: "black",
-//                 width: "100%",
-//                 backgroundColor: "#decaaf",
-//                 border: "2px solid #decaaf",
-//                 padding: "10px",
-//               }}
-//               onClick={handleSubmitListing}
-//             >
-//               Book Now
-//             </button>
-//           </div>
-//           <div
-//             style={{
-//               textAlign: "center",
-//               marginTop: "20px",
-//             }}
-//           >
-//             <div
-//               style={{
-//                 width: "120px",
-//                 height: "120px",
-//                 borderRadius: "50%",
-//                 overflow: "hidden",
-//                 margin: "auto",
-//                 backgroundColor: "white",
-//               }}
-//             >
-//               <img
-//                 src={Logoimg}
-//                 alt="logo img"
-//                 style={{
-//                   width: "100%",
-//                   height: "100%",
-//                   objectFit: "cover",
-//                 }}
-//               />
-//             </div>
-
-//             <h5>Smart Plan Real Estate</h5>
-//             <hr />
-//             <h6>Real Estate</h6>
-//             <div
-//               style={{
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 gap: "10px",
-//               }}
-//             >
-//               <i className="bi bi-envelope"></i>
-//               <span>info@abcabc.com</span>
-//               <i className="bi bi-telephone"></i>
-//               <span>+912345678</span>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// </div>

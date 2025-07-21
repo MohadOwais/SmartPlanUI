@@ -117,76 +117,6 @@ const Property = () => {
         <div className="container-fluid mt-5">
           <div className="container">
             <div className="row mt-5">
-              {/* <div className="col-lg-6 col-md-12 mt-5">
-                <h2>Explore Our Property</h2>
-                <p>
-                  Explore the most exclusive real estate listings in Abu Dhabi,
-                  Dubai, and Ras al Khaimah.
-                </p>
-                <div>
-                  <p>
-                    At Smart Plan Real Estate, we pride ourselves on delivering
-                    excellence in every project we undertake. With a proven
-                    track record of successfully completing numerous projects,
-                    we are well-equipped to handle ventures of any scale, from
-                    residential developments to large commercial projects. Our
-                    meticulous planning, seamless execution, and client-first
-                    approach set us apart in the real estate industry. Every
-                    project executed by Smart Plan Real Estate reflects our
-                    commitment to quality, innovation, and professionalism.
-                    Whether you're looking to invest, develop, or collaborate,
-                    Smart Plan Real Estate is ready to partner with you to turn
-                    your vision into reality. Let's build a future together!
-                  </p>
-                </div>
-              </div> */}
-              {/* <div className="col-lg-6 col-md-12">
-                <div
-                  className="card"
-                  style={{
-                    width: "100%",
-                    maxWidth: "600px",
-                    marginTop: "20px",
-                    borderRadius: "20px",
-                  }}
-                >
-                  <div className="card-body">
-                    <div
-                      id="carouselExampleSlidesOnly"
-                      className="carousel slide"
-                      data-bs-ride="carousel"
-                    >
-                      <div className="carousel-inner">
-                        <div className="carousel-item active">
-                          <img
-                            style={{ height: "350px", maxHeight: "400px" }}
-                            src={apartment1}
-                            className="d-block w-100"
-                            alt="Slide 1"
-                          />
-                        </div>
-                        <div className="carousel-item">
-                          <img
-                            style={{ height: "350px", maxHeight: "400px" }}
-                            src={apartment2}
-                            className="d-block w-100"
-                            alt="Slide 2"
-                          />
-                        </div>
-                        <div className="carousel-item">
-                          <img
-                            style={{ height: "350px", maxHeight: "400px" }}
-                            src={apartment3}
-                            className="d-block w-100"
-                            alt="Slide 3"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-              {/* <hr style={{ marginTop: "20px" }} /> */}
               <div className="col-lg-6 col-md-12">
                 <h3>Our Property</h3>
               </div>
@@ -397,49 +327,94 @@ const Property = () => {
             </div>
           </div>
         </div>
+
         <div
           style={{
-            width: "100%",
-            height: "400px",
-            maxHeight: "600px",
             marginTop: "100px",
-            borderRadius: "20px",
+            backgroundColor: "#4A4A4A",
+            height: "100%",
           }}
         >
           <div className="container">
             <div className="row">
-              <div className="col-lg-24 mt-5" style={{ textAlign: "center" }}>
-                <h2>
-                  A house is made of walls and beams; a home is built with love
-                  and dreams
-                </h2>
-                <img
-                  src={ComapanyLogo}
-                  // className="d-block w-20"
-                  alt="Slide 1"
+              <div
+                className="container mt-0"
+                style={{
+                  padding: "20px 0",
+                  color: "white",
+                }}
+              >
+                <div
                   style={{
-                    // margin: "0 auto",
-                    marginTop: "40px",
-                    // display: "block",
-                    height: "200px",
-                    width: "200px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+                >
+                  <img
+                    src={ComapanyLogo}
+                    alt="Company Logo"
+                    style={{
+                      height: "200px",
+                      width: "200px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+                <ul
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    listStyle: "none",
+                    padding: 0,
+                    marginTop: "20px",
+                  }}
+                >
+                  <a
+                    href="/"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    <li style={{ margin: "0 15px", cursor: "pointer" }}>
+                      Home
+                    </li>
+                  </a>
+                  <a
+                    href="/property"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    <li style={{ margin: "0 15px", cursor: "pointer" }}>
+                      Property
+                    </li>
+                  </a>
+                  <a
+                    href="/about-us"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    <li style={{ margin: "0 15px", cursor: "pointer" }}>
+                      About Us
+                    </li>
+                  </a>
+                  <a
+                    href="/contact"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    <li style={{ margin: "0 15px" }}>Contact</li>
+                  </a>
+                </ul>
+                <hr style={{ borderColor: "white", margin: "30px 0" }} />
 
-        <div style={{ backgroundColor: "#3c2415", height: "100%" }}>
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-24 mt-5">
-                <h4 style={{ textAlign: "center", color: "white" }}>
-                  &copy; {new Date().getFullYear()} All Right Reserved by
-                  Mohammed owais
-                </h4>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: "0 50px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <p>📞 +971509866679</p>
+                  <p>✉️ smartplan.re@gmail.com</p>
+                </div>
               </div>
             </div>
           </div>

@@ -371,22 +371,34 @@ const OurProjects = () => {
                     marginTop: "20px",
                   }}
                 >
-                  <a href="/" style={{ color: "white", textDecoration: "none" }}>
+                  <a
+                    href="/"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
                     <li style={{ margin: "0 15px", cursor: "pointer" }}>
                       Home
                     </li>
                   </a>
-                  <a href="/property"style={{ color: "white", textDecoration: "none" }}>
+                  <a
+                    href="/property"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
                     <li style={{ margin: "0 15px", cursor: "pointer" }}>
                       Property
                     </li>
                   </a>
-                  <a href="/about-us"style={{ color: "white", textDecoration: "none" }}>
+                  <a
+                    href="/about-us"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
                     <li style={{ margin: "0 15px", cursor: "pointer" }}>
                       About Us
                     </li>
                   </a>
-                  <a href="/contact"style={{ color: "white", textDecoration: "none" }}>
+                  <a
+                    href="/contact"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
                     <li style={{ margin: "0 15px" }}>Contact</li>
                   </a>
                 </ul>
@@ -400,7 +412,7 @@ const OurProjects = () => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <p>📞 00971509866796</p>
+                  <p>📞 +971509866679</p>
                   <p>✉️ smartplan.re@gmail.com</p>
                 </div>
               </div>
